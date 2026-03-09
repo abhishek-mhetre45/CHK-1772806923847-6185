@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marketplace - Artisans' Marketplace</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-hands"></i>
+                <span>Artisans' Marketplace</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="marketplace.html" class="active">Marketplace</a></li>
+                <li><a href="#">Categories</a></li>
+                <li><a href="#">Login</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Marketplace Header -->
+    <section class="marketplace-header" style="background: linear-gradient(135deg, #8B5A2B, #D4A373); color: white; padding: 120px 0 60px; text-align: center;">
+        <h1>Discover Handmade Treasures</h1>
+        <p>Browse unique creations from talented local artisans</p>
+    </section>
+
+    <!-- Simple Product Grid -->
+    <section class="container" style="padding: 60px 0;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 2rem;">
+            <!-- Product 1 -->
+            <div style="background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <img src="https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" style="width: 100%; height: 200px; object-fit: cover;">
+                <div style="padding: 1rem;">
+                    <h3>Handcrafted Clay Pot</h3>
+                    <p style="color: #666;">by Priya's Pottery</p>
+                    <p style="color: #8B5A2B; font-weight: bold;">₹899</p>
+                </div>
+            </div>
+            <!-- Product 2 -->
+            <div style="background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" style="width: 100%; height: 200px; object-fit: cover;">
+                <div style="padding: 1rem;">
+                    <h3>Handwoven Saree</h3>
+                    <p style="color: #666;">by Weavers of Varanasi</p>
+                    <p style="color: #8B5A2B; font-weight: bold;">₹3,499</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>
