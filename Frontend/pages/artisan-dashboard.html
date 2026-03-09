@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artisan Dashboard - CraftConnect</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Dashboard Specific Styles */
+        .dashboard-section {
+            padding: 40px 0;
+            background: var(--background-light);
+            min-height: calc(100vh - 200px);
+        }
+
+        .dashboard-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 30px;
+        }
+
+        /* Dashboard Header */
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .dashboard-header h1 {
+            font-size: 32px;
+            color: var(--text-dark);
+        }
+
+        .dashboard-header h1 i {
+            color: var(--primary-color);
+            margin-right: 10px;
+        }
+
+        .shop-status {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .status-badge {
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-badge.active {
+            background: rgba(76, 175, 80, 0.1);
+            color: #4CAF50;
+        }
+
+        .status-badge i {
+            font-size: 12px;
+        }
+
+        .btn-add-product {
+            background: var(--primary-color);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: var(--transition);
+        }
+
+        .btn-add-product:hover {
+            background: #ff5252;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        /* Dashboard Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-info h3 {
+            font-size: 14px;
+            color: var(--text-light);
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 107, 107, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .stat-icon i {
+            font-size: 24px;
+            color: var(--primary-color);
+        }
+
+        /* Dashboard Tabs */
+        .dashboard-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 10px;
+        }
+
+        .tab-btn {
+            padding: 12px 25px;
+            background: transparent;
+            border: none;
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-light);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+            border-radius: 8px 8px 0 0;
+        }
+
+        .tab-btn i {
+            font-size: 18px;
+        }
+
+        .tab-btn:hover {
+            color: var(--primary-color);
+            background: rgba(255, 107, 107, 0.05);
+        }
+
+        .tab-btn.active {
+            color: var(--primary-color);
+            border-bottom: 3px solid var(--primary-color);
+            margin-bottom: -12px;
+        }
+
+        /* Products Grid */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .product-card {
+            background: var(--white);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .product-image {
+            position: relative;
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.1);
+        }
+
+        .product-actions {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            gap: 8px;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .product-card:hover .product-actions {
+            opacity: 1;
+        }
+
+        .action-btn {
+            width: 35px;
+            height: 35px;
+            background: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-dark);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .action-btn.edit:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .action-btn.delete:hover {
+            background: #ff4444;
+            color: white;
+        }
+
+        .stock-badge {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            background: white;
+        }
+
+        .stock-badge.low {
+            background: #ff4444;
+            color: white;
+        }
+
+        .stock-badge.medium {
+            background: #FFA726;
+            color: white;
+        }
+
+        .stock-badge.high {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .product-info {
+            padding: 15px;
+        }
+
+        .product-info h3 {
+            font-size: 16px;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+        }
+
+        .product-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .product-price {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .product-sold {
+            font-size: 13px;
+            color: var(--text-light);
+        }
+
+        .product-stock {
+            font-size: 13px;
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .product-stock i {
+            color: var(--primary-color);
+        }
+
+        /* Orders Table */
+        .orders-table {
+            background: var(--white);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .orders-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .orders-table th {
+            background: #f8f9fa;
+            padding: 15px 20px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--text-dark);
+            font-size: 14px;
+        }
+
+        .orders-table td {
+            padding: 15px 20px;
+            border-bottom: 1px solid #e0e0e0;
+            color: var(--text-dark);
+        }
+
+        .orders-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .order-status {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .status-pending {
+            background: rgba(255, 152, 0, 0.1);
+            color: #FF9800;
+        }
+
+        .status-processing {
+            background: rgba(33, 150, 243, 0.1);
+            color: #2196F3;
+        }
+
+        .status-shipped {
+            background: rgba(156, 39, 176, 0.1);
+            color: #9C27B0;
+        }
+
+        .status-delivered {
+            background: rgba(76, 175, 80, 0.1);
+            color: #4CAF50;
+        }
+
+        .view-btn {
+            padding: 6px 12px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: var(--transition);
+        }
+
+        .view-btn:hover {
+            background: #ff5252;
+        }
+
+        /* Analytics Section */
+        .analytics-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 25px;
+        }
+
+        .chart-card {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+        }
+
+        .chart-card h3 {
+            margin-bottom: 20px;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .chart-card h3 i {
+            color: var(--primary-color);
+        }
+
+        .chart-placeholder {
+            height: 250px;
+            display: flex;
+            align-items: flex-end;
+            gap: 15px;
+            padding: 20px 0;
+        }
+
+        .bar {
+            flex: 1;
+            background: linear-gradient(to top, var(--primary-color), var(--secondary-color));
+            border-radius: 8px 8px 0 0;
+            min-height: 50px;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .bar:hover {
+            opacity: 0.9;
+        }
+
+        .bar span {
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 12px;
+            color: var(--text-light);
+        }
+
+        .recent-activities {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            width: 35px;
+            height: 35px;
+            background: rgba(255, 107, 107, 0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .activity-icon i {
+            color: var(--primary-color);
+            font-size: 16px;
+        }
+
+        .activity-details {
+            flex: 1;
+        }
+
+        .activity-details p {
+            font-weight: 500;
+            color: var(--text-dark);
+            margin-bottom: 3px;
+        }
+
+        .activity-details span {
+            font-size: 12px;
+            color: var(--text-light);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .analytics-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .dashboard-tabs {
+                flex-wrap: wrap;
+            }
+
+            .tab-btn {
+                padding: 10px 15px;
+                font-size: 14px;
+            }
+
+            .orders-table {
+                overflow-x: auto;
+            }
+
+            .orders-table table {
+                min-width: 800px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="container">
+            <div class="top-bar-left">
+                <div class="logo-large">CraftConnect</div>
+            </div>
+            <div class="top-bar-center">
+                <div class="search-box">
+                    <input type="text" placeholder="Search...">
+                    <button><i class="fas fa-search"></i></button>
+                </div>
+                <div class="category-dropdown">
+                    <select>
+                        <option>All categories</option>
+                        <option>Jewelry</option>
+                        <option>Home & Living</option>
+                        <option>Bath & Beauty</option>
+                        <option>Art & Collectibles</option>
+                    </select>
+                </div>
+            </div>
+            <div class="top-bar-right">
+                <div class="auth-dropdown">
+                    <button class="auth-dropdown-btn">
+                        <i class="fas fa-user-circle"></i> My Shop <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="auth-dropdown-content">
+                        <a href="artisan-dashboard.html">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>Dashboard</span>
+                        </a>
+                        <a href="#">
+                            <i class="fas fa-box"></i>
+                            <span>My Products</span>
+                        </a>
+                        <a href="#">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span>Orders</span>
+                        </a>
+                        <div class="divider"></div>
+                        <a href="#">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </a>
+                    </div>
+                </div>
+                <span class="hello-text">Hello, Artisan!</span>
+                <div class="cart-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Navigation -->
+    <nav class="main-nav">
+        <div class="container">
+            <ul class="nav-categories">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="marketplace.html">Marketplace</a></li>
+                <li><a href="#">Jewelry</a></li>
+                <li><a href="#">Home & Living</a></li>
+                <li><a href="#">Bath & Beauty</a></li>
+                <li><a href="#">Art & Collectibles</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Dashboard Section -->
+    <section class="dashboard-section">
+        <div class="dashboard-container">
+            <!-- Dashboard Header -->
+            <div class="dashboard-header">
+                <h1>
+                    <i class="fas fa-tachometer-alt"></i>
+                    Artisan Dashboard
+                </h1>
+                <div class="shop-status">
+                    <div class="status-badge active">
+                        <i class="fas fa-circle"></i>
+                        Shop Active
+                    </div>
+                    <a href="#" class="btn-add-product">
+                        <i class="fas fa-plus"></i>
+                        Add New Product
+                    </a>
+                </div>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-info">
+                        <h3>Total Products</h3>
+                        <div class="stat-number">24</div>
+                    </div>
+                    <div class="stat-icon">
+                        <i class="fas fa-box"></i>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-info">
+                        <h3>Active Orders</h3>
+                        <div class="stat-number">8</div>
+                    </div>
+                    <div class="stat-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-info">
+                        <h3>Total Sales</h3>
+                        <div class="stat-number">₹45,678</div>
+                    </div>
+                    <div class="stat-icon">
+                        <i class="fas fa-rupee-sign"></i>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-info">
+                        <h3>Customers</h3>
+                        <div class="stat-number">156</div>
+                    </div>
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Tabs -->
+            <div class="dashboard-tabs">
+                <button class="tab-btn active" onclick="switchTab('products')">
+                    <i class="fas fa-box"></i>
+                    My Products
+                </button>
+                <button class="tab-btn" onclick="switchTab('orders')">
+                    <i class="fas fa-shopping-cart"></i>
+                    Orders
+                </button>
+                <button class="tab-btn" onclick="switchTab('analytics')">
+                    <i class="fas fa-chart-line"></i>
+                    Analytics
+                </button>
+                <button class="tab-btn" onclick="switchTab('reviews')">
+                    <i class="fas fa-star"></i>
+                    Reviews
+                </button>
+            </div>
+
+            <!-- Products Tab Content (Default) -->
+            <div id="products-tab" class="tab-content">
+                <div class="products-grid">
+                    <!-- Product 1 -->
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Product">
+                            <div class="product-actions">
+                                <button class="action-btn edit" title="Edit">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="action-btn delete" title="Delete">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                            <span class="stock-badge high">In Stock: 15</span>
+                        </div>
+                        <div class="product-info">
+                            <h3>Handcrafted Clay Pot</h3>
+                            <div class="product-meta">
+                                <span class="product-price">₹899</span>
+                                <span class="product-sold">Sold: 23</span>
+                            </div>
+                            <div class="product-stock">
+                                <i class="fas fa-box"></i>
+                                <span>Low stock alert at 5 items</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 2 -->
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Product">
+                            <div class="product-actions">
+                                <button class="action-btn edit">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="action-btn delete">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                            <span class="stock-badge low">In Stock: 2</span>
+                        </div>
+                        <div class="product-info">
+                            <h3>Handwoven Silk Saree</h3>
+                            <div class="product-meta">
+                                <span class="product-price">₹3,499</span>
+                                <span class="product-sold">Sold: 12</span>
+                            </div>
+                            <div class="product-stock">
+                                <i class="fas fa-exclamation-triangle" style="color: #ff4444;"></i>
+                                <span style="color: #ff4444;">Low stock! Only 2 left</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 3 -->
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Product">
+                            <div class="product-actions">
+                                <button class="action-btn edit">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="action-btn delete">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                            <span class="stock-badge medium">In Stock: 8</span>
+                        </div>
+                        <div class="product-info">
+                            <h3>Silver Traditional Earrings</h3>
+                            <div class="product-meta">
+                                <span class="product-price">₹1,299</span>
+                                <span class="product-sold">Sold: 45</span>
+                            </div>
+                            <div class="product-stock">
+                                <i class="fas fa-box"></i>
+                                <span>Running low - 8 left</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 4 -->
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="https://images.unsplash.com/photo-1610701596007-11502861dcfa?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Product">
+                            <div class="product-actions">
+                                <button class="action-btn edit">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="action-btn delete">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                            <span class="stock-badge high">In Stock: 20</span>
+                        </div>
+                        <div class="product-info">
+                            <h3>Wooden Wall Decor</h3>
+                            <div class="product-meta">
+                                <span class="product-price">₹2,499</span>
+                                <span class="product-sold">Sold: 8</span>
+                            </div>
+                            <div class="product-stock">
+                                <i class="fas fa-box"></i>
+                                <span>Well stocked</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Load More Button -->
+                <div style="text-align: center; margin-top: 30px;">
+                    <button class="btn-learn-more" style="padding: 12px 30px;">
+                        <i class="fas fa-sync-alt"></i>
+                        Load More Products
+                    </button>
+                </div>
+            </div>
+
+            <!-- Orders Tab Content (Hidden by Default) -->
+            <div id="orders-tab" class="tab-content" style="display: none;">
+                <div class="orders-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Product</th>
+                                <th>Date</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>#ORD-001</td>
+                                <td>Priya Sharma</td>
+                                <td>Handcrafted Clay Pot</td>
+                                <td>Mar 10, 2026</td>
+                                <td>₹899</td>
+                                <td><span class="order-status status-pending">Pending</span></td>
+                                <td><button class="view-btn">View</button></td>
+                            </tr>
+                            <tr>
+                                <td>#ORD-002</td>
+                                <td>Rajesh Kumar</td>
+                                <td>Handwoven Silk Saree</td>
+                                <td>Mar 09, 2026</td>
+                                <td>₹3,499</td>
+                                <td><span class="order-status status-processing">Processing</span></td>
+                                <td><button class="view-btn">View</button></td>
+                            </tr>
+                            <tr>
+                                <td>#ORD-003</td>
+                                <td>Anita Desai</td>
+                                <td>Silver Earrings</td>
+                                <td>Mar 08, 2026</td>
+                                <td>₹1,299</td>
+                                <td><span class="order-status status-shipped">Shipped</span></td>
+                                <td><button class="view-btn">View</button></td>
+                            </tr>
+                            <tr>
+                                <td>#ORD-004</td>
+                                <td>Vikram Singh</td>
+                                <td>Wooden Wall Decor</td>
+                                <td>Mar 07, 2026</td>
+                                <td>₹2,499</td>
+                                <td><span class="order-status status-delivered">Delivered</span></td>
+                                <td><button class="view-btn">View</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Analytics Tab Content (Hidden by Default) -->
+            <div id="analytics-tab" class="tab-content" style="display: none;">
+                <div class="analytics-grid">
+                    <div class="chart-card">
+                        <h3><i class="fas fa-calendar"></i> Sales This Week</h3>
+                        <div class="chart-placeholder">
+                            <div class="bar" style="height: 100px;"><span>Mon</span></div>
+                            <div class="bar" style="height: 150px;"><span>Tue</span></div>
+                            <div class="bar" style="height: 120px;"><span>Wed</span></div>
+                            <div class="bar" style="height: 180px;"><span>Thu</span></div>
+                            <div class="bar" style="height: 140px;"><span>Fri</span></div>
+                            <div class="bar" style="height: 200px;"><span>Sat</span></div>
+                            <div class="bar" style="height: 90px;"><span>Sun</span></div>
+                        </div>
+                    </div>
+
+                    <div class="recent-activities">
+                        <h3><i class="fas fa-history"></i> Recent Activities</h3>
+                        <div class="activity-item">
+                            <div class="activity-icon">
+                                <i class="fas fa-shopping-cart"></i>
+                            </div>
+                            <div class="activity-details">
+                                <p>New order received</p>
+                                <span>5 minutes ago</span>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="activity-details">
+                                <p>5-star review received</p>
+                                <span>2 hours ago</span>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon">
+                                <i class="fas fa-box"></i>
+                            </div>
+                            <div class="activity-details">
+                                <p>Product "Clay Pot" is low in stock</p>
+                                <span>Yesterday</span>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon">
+                                <i class="fas fa-truck"></i>
+                            </div>
+                            <div class="activity-details">
+                                <p>Order #ORD-003 shipped</p>
+                                <span>Yesterday</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reviews Tab Content (Hidden by Default) -->
+            <div id="reviews-tab" class="tab-content" style="display: none;">
+                <div class="orders-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Customer</th>
+                                <th>Rating</th>
+                                <th>Review</th>
+                                <th>Date</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Handcrafted Clay Pot</td>
+                                <td>Priya Sharma</td>
+                                <td>
+                                    <i class="fas fa-star" style="color: #FFC107;"></i>
+                                    <i class="fas fa-star" style="color: #FFC107;"></i>
+                                    <i class="fas fa-star" style="color: #FFC107;"></i>
+                                    <i class="fas fa-star" style="color: #FFC107;"></i>
+                                    <i class="fas fa-star" style="color: #FFC107;"></i>
+                                </td>
+                                <td>Beautiful craftsmanship!</td>
+                                <td>Mar 10, 2026</td>
+                                <td><button class="view-btn">Reply</button></td>
+                            </tr>
+                            <tr>
+                                <td>Handwoven Silk Saree</td>
+                                <td>Rajesh Kumar</td>
+                                <td>
+                                    <i class="fas fa-star" style="color: #FFC107;"></i>
+                                    <i class="fas fa-star" style="color: #FFC107;"></i>
+                                    <i class="fas fa-star" style="color: #FFC107;"></i>
+                                    <i class="fas fa-star" style="color: #FFC107;"></i>
+                                    <i class="far fa-star" style="color: #FFC107;"></i>
+                                </td>
+                                <td>Good quality, loved it!</td>
+                                <td>Mar 09, 2026</td>
+                                <td><button class="view-btn">Reply</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-info">
+                    <div class="logo">
+                        <i class="fas fa-hands"></i>
+                        <span>CraftConnect</span>
+                    </div>
+                    <p>Connecting you with authentic craftsmanship from local artisans.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="marketplace.html">Marketplace</a></li>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>For Artisans</h4>
+                    <ul>
+                        <li><a href="artisan-dashboard.html">Dashboard</a></li>
+                        <li><a href="#">Add Product</a></li>
+                        <li><a href="#">Orders</a></li>
+                        <li><a href="#">Earnings</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 CraftConnect. All rights reserved. | Challenge ID: CHAK36-WD-05</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script>
+        // Tab switching functionality
+        function switchTab(tabName) {
+            // Hide all tab contents
+            document.getElementById('products-tab').style.display = 'none';
+            document.getElementById('orders-tab').style.display = 'none';
+            document.getElementById('analytics-tab').style.display = 'none';
+            document.getElementById('reviews-tab').style.display = 'none';
+            
+            // Show selected tab
+            document.getElementById(tabName + '-tab').style.display = 'block';
+            
+            // Update active state on tabs
+            const tabs = document.querySelectorAll('.tab-btn');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Find and activate clicked tab
+            event.target.closest('.tab-btn').classList.add('active');
+        }
+
+        // Make function global
+        window.switchTab = switchTab;
+
+        // Add Product button click
+        document.querySelector('.btn-add-product')?.addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('Add Product form will open here');
+            // Will link to add-product.html later
+        });
+
+        // Edit product buttons
+        document.querySelectorAll('.action-btn.edit').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                alert('Edit product functionality');
+                // Will link to edit product page
+            });
+        });
+
+        // Delete product buttons
+        document.querySelectorAll('.action-btn.delete').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (confirm('Are you sure you want to delete this product?')) {
+                    alert('Product deleted');
+                    // Will implement actual delete
+                }
+            });
+        });
+
+        // View order buttons
+        document.querySelectorAll('.view-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                alert('View order details');
+                // Will link to order details page
+            });
+        });
+    </script>
+</body>
+</html>

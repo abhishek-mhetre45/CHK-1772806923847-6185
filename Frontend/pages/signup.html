@@ -536,9 +536,14 @@
                     }
                     
                     if (isValid) {
-                        alert(`Account created successfully as ${selectedRole}! Redirecting to login...`);
-                        window.location.href = 'login.html';
-                    }
+            if (selectedRole === 'artisan') {
+            alert('Welcome Artisan! Your shop is ready. Redirecting to your dashboard...');
+                window.location.href = 'artisan-dashboard.html';
+            } else {
+                alert('Account created successfully! Redirecting to marketplace...');
+                window.location.href = 'marketplace.html';
+                }
+            }
                 });
             }
         });
