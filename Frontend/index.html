@@ -3,151 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Artisans' Marketplace</title>
+    <title>Handmade With Heart</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="logo">
-                <i class="fas fa-hands"></i>
-                <span>Artisans' Marketplace</span>
+    <!-- Top Bar with Search and Sign In -->
+    <div class="top-bar">
+        <div class="container">
+            <div class="top-bar-left">
+                <div class="logo-large">CraftConnect</div>
+        </div>
+            <div class="top-bar-center">
+                <div class="search-box">
+                    <input type="text" placeholder="Search...">
+                    <button><i class="fas fa-search"></i></button>
+                </div>
+                <div class="category-dropdown">
+                    <select>
+                        <option>All categories</option>
+                        <option>Jewelry</option>
+                        <option>Home & Living</option>
+                        <option>Bath & Beauty</option>
+                        <option>Art & Collectibles</option>
+                        <option>Fun & Games</option>
+                        <option>Celebrations</option>
+                    </select>
+                </div>
             </div>
-            <ul class="nav-menu">
-                <li><a href="#home" class="active">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#features">Features</a></li>
+            <div class="top-bar-right">
+                <a href="pages/login.html" class="signin-link">Sign In</a>
+                <span class="hello-text">Hello.</span>
+                <div class="cart-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Navigation -->
+    <nav class="main-nav">
+        <div class="container">
+            <ul class="nav-categories">
+                <li><a href="#" class="active">Jewelry</a></li>
+                <li><a href="#">Home & Living</a></li>
+                <li><a href="#">Bath & Beauty</a></li>
+                <li><a href="#">Art & Collectibles</a></li>
+                <li><a href="#">Fun & Games</a></li>
+                <li><a href="#">Celebrations</a></li>
+                <li><a href="#">More</a></li>
             </ul>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="hero-container">
+    <section class="hero-section">
+        <div class="container">
             <div class="hero-content">
-                <h1>Welcome to <span class="highlight">Artisans' Marketplace</span></h1>
-                <p class="subtitle">Where Tradition Meets Technology</p>
-                <p class="description">Discover unique handmade treasures from local artisans. Support traditional craftsmanship and bring home stories crafted with passion.</p>
-                <div class="hero-buttons">
-
-                    <a href="#" class="btn-primary">Explore Marketplace</a>
-                    <a href="#" class="btn-secondary">Learn More</a>
-                </div>
-                 
-                <!-- Add stats here-->
-                <div class="stats">
-                    <div class="stat-item">
-                        <span class="stat-number">500+</span>
-                        <span class="stat-label">Artisans</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-number">1000+</span>
-                        <span class="stat-label">Products</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-number">50+</span>
-                        <span class="stat-label">Categories</span>
+                <div class="hero-left">
+                    <span class="shop-local">ShopLocal</span>
+                    <h1 class="hero-title">
+                        <span class="handmade">HANDMADE</span><br>
+                        <span class="with-heart">WITH HEART</span>
+                    </h1>
+                    <p class="hero-subtitle">
+                        Handmade in the USA · 100% Profits to Charity
+                    </p>
+                    <div class="hero-buttons">
+                        <a href="#" class="btn-shop-now">SHOP NOW</a>
+                        <a href="#" class="btn-learn-more">LEARN MORE</a>
                     </div>
                 </div>
-
-            </div>
-            <div class="hero-image">
-                <img src="https://images.unsplash.com/photo-1605000797499-95a51c5269ae?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Artisan crafting">
+                <div class="hero-right">
+    <div class="hero-image-grid-three">
+        <!-- First image -->
+        <div class="image-item">
+            <img src="https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261" alt="Handmade Pottery">
+            <span class="image-label">Pottery</span>
+        </div>
+        <!-- Second image -->
+        <div class="image-item">
+            <img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3" alt="Handwoven Textile">
+            <span class="image-label">Textiles</span>
+        </div>
+        <!-- Third image -->
+        <div class="image-item">
+            <img src="https://images.unsplash.com/photo-1535632066927-ab7c9ab60908" alt="Handmade Jewelry">
+            <span class="image-label">Jewelry</span>
+        </div>
+    </div>
+</div>
             </div>
         </div>
     </section>
-
-    <!-- About Section -->
-    <section id="about" class="about">
-        <div class="container">
-            <div class="section-header">
-                <h2>About Our Platform</h2>
-                <p>Empowering local artisans in the digital age</p>
-            </div>
-            <div class="about-grid">
-                <div class="about-card">
-                    <div class="about-icon">
-                        <i class="fas fa-paint-brush"></i>
-                    </div>
-                    <h3>For Artisans</h3>
-                    <p>Showcase your unique creations to a global audience. Manage your inventory and grow your business.</p>
-                </div>
-                <div class="about-card">
-                    <div class="about-icon">
-                        <i class="fas fa-shopping-bag"></i>
-                    </div>
-                    <h3>For Buyers</h3>
-                    <p>Discover authentic handmade products directly from artisans. Each piece tells a unique story.</p>
-                </div>
-                <div class="about-card">
-                    <div class="about-icon">
-                        <i class="fas fa-hand-holding-heart"></i>
-                    </div>
-                    <h3>For Community</h3>
-                    <p>Support local economies and preserve traditional crafts for future generations.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-        <!-- Features Section -->
-    <section id="features" class="features">
-        <div class="container">
-            <div class="section-header">
-                <h2>Platform Features</h2>
-                <p>Everything you need to succeed</p>
-            </div>
-            <div class="features-grid">
-                <div class="feature-item">
-                    <i class="fas fa-store"></i>
-                    <h3>Easy Onboarding</h3>
-                    <p>Simple registration for artisans</p>
-                </div>
-                <div class="feature-item">
-                    <i class="fas fa-images"></i>
-                    <h3>Catalog Management</h3>
-                    <p>Upload and manage products easily</p>
-                </div>
-                <div class="feature-item">
-                    <i class="fas fa-credit-card"></i>
-                    <h3>Secure Payments</h3>
-                    <p>Safe transactions guaranteed</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-        <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h4>Artisans' Marketplace</h4>
-                    <p>Connecting you with authentic craftsmanship from local artisans.</p>
-                </div>
-                <div class="footer-section">
-                    <h4>Quick Links</h4>
-                    <ul>
-                        <li><a href="#home">Home</a></li>
-                        <li><a href="#about">About</a></li>
-                        <li><a href="#features">Features</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Contact</h4>
-                    <p>Email: info@artisansmarket.com</p>
-                    <p>Phone: +91 1234567890</p>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2026 Artisans' Marketplace. Challenge ID: CHAK36-WD-05</p>
-            </div>
-        </div>
-    </footer>
 
     <script src="js/main.js"></script>
-
 </body>
 </html>

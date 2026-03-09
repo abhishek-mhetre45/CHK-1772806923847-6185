@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - CraftConnect</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Auth Pages Specific Styles */
+        .auth-section {
+            min-height: calc(100vh - 200px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #f9f9f9 100%);
+        }
+
+        .auth-container {
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .auth-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 107, 107, 0.1);
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .auth-header .logo-large {
+            font-size: 32px;
+            margin-bottom: 15px;
+            display: inline-block;
+            background: linear-gradient(135deg, #FF6B6B 0%, #4ECDC4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 800;
+        }
+
+        .auth-header h2 {
+            font-size: 28px;
+            color: #2C3E50;
+            margin-bottom: 10px;
+        }
+
+        .auth-header p {
+            color: #7F8C8D;
+            font-size: 15px;
+        }
+
+        .auth-form .form-group {
+            margin-bottom: 20px;
+        }
+
+        .auth-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #2C3E50;
+            font-size: 14px;
+        }
+
+        .auth-form .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .auth-form .input-wrapper i {
+            position: absolute;
+            left: 15px;
+            color: #7F8C8D;
+            font-size: 16px;
+        }
+
+        .auth-form input {
+            width: 100%;
+            padding: 15px 15px 15px 45px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            background: #F9F9F9;
+        }
+
+        .auth-form input:focus {
+            border-color: #FF6B6B;
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(255, 107, 107, 0.1);
+        }
+
+        .auth-form input.error {
+            border-color: #ff4444;
+        }
+
+        .error-message {
+            color: #ff4444;
+            font-size: 13px;
+            margin-top: 5px;
+            display: block;
+        }
+
+        .password-requirements {
+            background: #F9F9F9;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-size: 13px;
+        }
+
+        .password-requirements p {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #2C3E50;
+        }
+
+        .password-requirements ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .password-requirements li {
+            color: #7F8C8D;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .password-requirements li i {
+            font-size: 12px;
+            color: #ff4444;
+        }
+
+        .password-requirements li.valid i {
+            color: #00C851;
+        }
+
+        .auth-btn {
+            width: 100%;
+            padding: 16px;
+            background: #FF6B6B;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            letter-spacing: 0.5px;
+        }
+
+        .auth-btn:hover {
+            background: #ff5252;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .auth-footer {
+            text-align: center;
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .auth-footer p {
+            color: #7F8C8D;
+            font-size: 15px;
+        }
+
+        .auth-footer a {
+            color: #FF6B6B;
+            text-decoration: none;
+            font-weight: 600;
+            margin-left: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .auth-footer a:hover {
+            color: #ff5252;
+            text-decoration: underline;
+        }
+
+        .terms {
+            margin: 20px 0;
+            font-size: 13px;
+            color: #7F8C8D;
+            text-align: center;
+        }
+
+        .terms a {
+            color: #FF6B6B;
+            text-decoration: none;
+        }
+
+        .role-selector {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .role-option {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .role-option:hover {
+            border-color: #FF6B6B;
+        }
+
+        .role-option.selected {
+            border-color: #FF6B6B;
+            background: rgba(255, 107, 107, 0.05);
+        }
+
+        .role-option i {
+            font-size: 24px;
+            color: #FF6B6B;
+            margin-bottom: 5px;
+        }
+
+        .role-option span {
+            display: block;
+            font-weight: 600;
+            color: #2C3E50;
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="container">
+            <div class="top-bar-left">
+                <div class="logo-large">CraftConnect</div>
+            </div>
+            <div class="top-bar-center">
+                <div class="search-box">
+                    <input type="text" placeholder="Search...">
+                    <button><i class="fas fa-search"></i></button>
+                </div>
+                <div class="category-dropdown">
+                    <select>
+                        <option>All categories</option>
+                        <option>Jewelry</option>
+                        <option>Home & Living</option>
+                        <option>Bath & Beauty</option>
+                        <option>Art & Collectibles</option>
+                    </select>
+                </div>
+            </div>
+            <div class="top-bar-right">
+                <a href="login.html" class="signin-link">Sign In</a>
+                <span class="hello-text">Hello.</span>
+                <div class="cart-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Navigation -->
+    <nav class="main-nav">
+        <div class="container">
+            <ul class="nav-categories">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="marketplace.html">Marketplace</a></li>
+                <li><a href="#">Jewelry</a></li>
+                <li><a href="#">Home & Living</a></li>
+                <li><a href="#">Bath & Beauty</a></li>
+                <li><a href="#">Art & Collectibles</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Signup Section -->
+    <section class="auth-section">
+        <div class="auth-container">
+            <div class="auth-card">
+                <div class="auth-header">
+                    <div class="logo-large">CraftConnect</div>
+                    <h2>Join Our Community</h2>
+                    <p>Create an account to start your artisan journey</p>
+                </div>
+
+                <form class="auth-form" id="signupForm">
+                    <div class="role-selector">
+                        <div class="role-option selected" id="buyerRole" onclick="selectRole('buyer')">
+                            <i class="fas fa-shopping-bag"></i>
+                            <span>I'm a Buyer</span>
+                        </div>
+                        <div class="role-option" id="artisanRole" onclick="selectRole('artisan')">
+                            <i class="fas fa-paint-brush"></i>
+                            <span>I'm an Artisan</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="fullName">Full Name</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-user"></i>
+                            <input type="text" id="fullName" placeholder="Enter your full name">
+                        </div>
+                        <span class="error-message" id="nameError"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="email" placeholder="Enter your email">
+                        </div>
+                        <span class="error-message" id="emailError"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="password" placeholder="Create a password">
+                        </div>
+                        <span class="error-message" id="passwordError"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="confirmPassword" placeholder="Confirm your password">
+                        </div>
+                        <span class="error-message" id="confirmError"></span>
+                    </div>
+
+                    <!-- Password Requirements -->
+                    <div class="password-requirements" id="passwordRequirements" style="display: none;">
+                        <p>Password must contain:</p>
+                        <ul>
+                            <li id="length"><i class="fas fa-times"></i> At least 8 characters</li>
+                            <li id="number"><i class="fas fa-times"></i> At least one number</li>
+                            <li id="uppercase"><i class="fas fa-times"></i> At least one uppercase letter</li>
+                            <li id="special"><i class="fas fa-times"></i> At least one special character</li>
+                        </ul>
+                    </div>
+
+                    <div class="terms">
+                        <input type="checkbox" id="terms" style="width: auto; margin-right: 8px;">
+                        <label for="terms" style="display: inline;">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></label>
+                    </div>
+
+                    <button type="submit" class="auth-btn">
+                        <i class="fas fa-user-plus" style="margin-right: 8px;"></i>
+                        Create Account
+                    </button>
+                </form>
+
+                <div class="auth-footer">
+                    <p>Already have an account? 
+                        <a href="login.html">Sign In</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        let selectedRole = 'buyer';
+
+        function selectRole(role) {
+            selectedRole = role;
+            document.getElementById('buyerRole').classList.remove('selected');
+            document.getElementById('artisanRole').classList.remove('selected');
+            document.getElementById(role + 'Role').classList.add('selected');
+        }
+
+        // Make selectRole available globally
+        window.selectRole = selectRole;
+
+        // Wait for DOM to load
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Signup page loaded');
+            
+            const passwordInput = document.getElementById('password');
+            const requirements = document.getElementById('passwordRequirements');
+            
+            // Password strength checker
+            if (passwordInput) {
+                passwordInput.addEventListener('input', function() {
+                    const password = this.value;
+                    
+                    if (password.length > 0) {
+                        requirements.style.display = 'block';
+                    } else {
+                        requirements.style.display = 'none';
+                    }
+
+                    // Check length
+                    const lengthReq = document.getElementById('length');
+                    if (lengthReq) {
+                        if (password.length >= 8) {
+                            lengthReq.classList.add('valid');
+                            lengthReq.querySelector('i').className = 'fas fa-check';
+                            lengthReq.querySelector('i').style.color = '#00C851';
+                        } else {
+                            lengthReq.classList.remove('valid');
+                            lengthReq.querySelector('i').className = 'fas fa-times';
+                            lengthReq.querySelector('i').style.color = '#ff4444';
+                        }
+                    }
+
+                    // Check number
+                    const numberReq = document.getElementById('number');
+                    if (numberReq) {
+                        if (/\d/.test(password)) {
+                            numberReq.classList.add('valid');
+                            numberReq.querySelector('i').className = 'fas fa-check';
+                            numberReq.querySelector('i').style.color = '#00C851';
+                        } else {
+                            numberReq.classList.remove('valid');
+                            numberReq.querySelector('i').className = 'fas fa-times';
+                            numberReq.querySelector('i').style.color = '#ff4444';
+                        }
+                    }
+
+                    // Check uppercase
+                    const upperReq = document.getElementById('uppercase');
+                    if (upperReq) {
+                        if (/[A-Z]/.test(password)) {
+                            upperReq.classList.add('valid');
+                            upperReq.querySelector('i').className = 'fas fa-check';
+                            upperReq.querySelector('i').style.color = '#00C851';
+                        } else {
+                            upperReq.classList.remove('valid');
+                            upperReq.querySelector('i').className = 'fas fa-times';
+                            upperReq.querySelector('i').style.color = '#ff4444';
+                        }
+                    }
+
+                    // Check special character
+                    const specialReq = document.getElementById('special');
+                    if (specialReq) {
+                        if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+                            specialReq.classList.add('valid');
+                            specialReq.querySelector('i').className = 'fas fa-check';
+                            specialReq.querySelector('i').style.color = '#00C851';
+                        } else {
+                            specialReq.classList.remove('valid');
+                            specialReq.querySelector('i').className = 'fas fa-times';
+                            specialReq.querySelector('i').style.color = '#ff4444';
+                        }
+                    }
+                });
+            }
+
+            // Form submission
+            const signupForm = document.getElementById('signupForm');
+            if (signupForm) {
+                signupForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const fullName = document.getElementById('fullName');
+                    const email = document.getElementById('email');
+                    const password = document.getElementById('password');
+                    const confirmPassword = document.getElementById('confirmPassword');
+                    const terms = document.getElementById('terms');
+                    
+                    const nameError = document.getElementById('nameError');
+                    const emailError = document.getElementById('emailError');
+                    const passwordError = document.getElementById('passwordError');
+                    const confirmError = document.getElementById('confirmError');
+                    
+                    // Reset errors
+                    [fullName, email, password, confirmPassword].forEach(field => {
+                        if (field) field.classList.remove('error');
+                    });
+                    
+                    [nameError, emailError, passwordError, confirmError].forEach(err => {
+                        if (err) err.textContent = '';
+                    });
+                    
+                    let isValid = true;
+                    
+                    // Name validation
+                    if (!fullName.value) {
+                        fullName.classList.add('error');
+                        nameError.textContent = 'Full name is required';
+                        isValid = false;
+                    }
+                    
+                    // Email validation
+                    if (!email.value) {
+                        email.classList.add('error');
+                        emailError.textContent = 'Email is required';
+                        isValid = false;
+                    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
+                        email.classList.add('error');
+                        emailError.textContent = 'Please enter a valid email';
+                        isValid = false;
+                    }
+                    
+                    // Password validation
+                    if (!password.value) {
+                        password.classList.add('error');
+                        passwordError.textContent = 'Password is required';
+                        isValid = false;
+                    } else if (password.value.length < 8) {
+                        password.classList.add('error');
+                        passwordError.textContent = 'Password must be at least 8 characters';
+                        isValid = false;
+                    }
+                    
+                    // Confirm password
+                    if (password.value !== confirmPassword.value) {
+                        confirmPassword.classList.add('error');
+                        confirmError.textContent = 'Passwords do not match';
+                        isValid = false;
+                    }
+                    
+                    // Terms agreement
+                    if (!terms.checked) {
+                        alert('Please agree to the Terms of Service and Privacy Policy');
+                        isValid = false;
+                    }
+                    
+                    if (isValid) {
+                        alert(`Account created successfully as ${selectedRole}! Redirecting to login...`);
+                        window.location.href = 'login.html';
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

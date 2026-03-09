@@ -1,61 +1,50 @@
-// Mobile menu functionality
+// Mobile menu and interactions
 document.addEventListener('DOMContentLoaded', function() {
-    // Smooth scrolling for navigation links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
+    
+    // Search functionality
+    const searchInput = document.querySelector('.search-box input');
+    const searchButton = document.querySelector('.search-box button');
+    
+    if (searchButton) {
+        searchButton.addEventListener('click', function() {
+            const searchTerm = searchInput.value.trim();
+            if (searchTerm) {
+                console.log('Searching for:', searchTerm);
+                // Add your search logic here
+                alert(`Searching for: ${searchTerm}`);
             }
+        });
+    }
+    
+    // Category dropdown change
+    const categorySelect = document.querySelector('.category-dropdown select');
+    if (categorySelect) {
+        categorySelect.addEventListener('change', function() {
+            console.log('Selected category:', this.value);
+            // Add your category filter logic here
+        });
+    }
+    
+    // Navigation active state
+    const navLinks = document.querySelectorAll('.nav-categories a');
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            navLinks.forEach(l => l.classList.remove('active'));
+            this.classList.add('active');
         });
     });
-
-    // Active link highlighting
-    const sections = document.querySelectorAll('section');
-    const navLinks = document.querySelectorAll('.nav-menu a');
-
-    window.addEventListener('scroll', () => {
-        let current = '';
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            const sectionHeight = section.clientHeight;
-            if (pageYOffset >= sectionTop - 200) {
-                current = section.getAttribute('id');
-            }
+    
+    // Image hover effects (optional)
+    const imageItems = document.querySelectorAll('.image-item');
+    imageItems.forEach(item => {
+        item.addEventListener('mouseenter', function() {
+            this.style.zIndex = '10';
         });
-
-        navLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href') === `#${current}`) {
-                link.classList.add('active');
-            }
+        
+        item.addEventListener('mouseleave', function() {
+            this.style.zIndex = '1';
         });
     });
-
-    // Fade-in animation on scroll
-    const observerOptions = {
-        threshold: 0.1
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
-            }
-        });
-    }, observerOptions);
-
-    document.querySelectorAll('.about-card, .feature-item').forEach(el => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(20px)';
-        el.style.transition = 'all 0.6s ease';
-        observer.observe(el);
-    });
-
-    console.log('Artisans Marketplace - Interactive features loaded');
+    
+    console.log('ShopLocal - Hero section loaded');
 });

@@ -8,19 +8,79 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
+
+    <body>
+    <!-- Top Bar with Auth Dropdown -->
+    <div class="top-bar">
+        <div class="container">
+            <div class="top-bar-left">
+                <div class="logo-large">CraftConnect</div>
+            </div>
+            <div class="top-bar-center">
+                <div class="search-box">
+                    <input type="text" placeholder="Search...">
+                    <button><i class="fas fa-search"></i></button>
+                </div>
+                <div class="category-dropdown">
+                    <select>
+                        <option>All categories</option>
+                        <option>Jewelry</option>
+                        <option>Home & Living</option>
+                        <option>Bath & Beauty</option>
+                        <option>Art & Collectibles</option>
+                    </select>
+                </div>
+            </div>
+            <div class="top-bar-right">
+                <div class="auth-dropdown">
+                    <button class="auth-dropdown-btn">
+                        Sign In <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="auth-dropdown-content">
+                        <a href="login.html">
+                            <i class="fas fa-sign-in-alt"></i>
+                            <span>Login</span>
+                            <span class="role-badge">Existing User</span>
+                        </a>
+                        <div class="divider"></div>
+                        <a href="signup.html?role=buyer">
+                            <i class="fas fa-shopping-bag"></i>
+                            <span>Sign up as Buyer</span>
+                            <span class="role-badge">New</span>
+                        </a>
+                        <a href="signup.html?role=artisan">
+                            <i class="fas fa-paint-brush"></i>
+                            <span>Sign up as Artisan</span>
+                            <span class="role-badge">New</span>
+                        </a>
+                    </div>
+                </div>
+                <span class="hello-text">Hello.</span>
+                <div class="cart-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
     <!-- Navbar -->
     <nav class="navbar">
         <div class="nav-container">
             <div class="logo">
-                <i class="fas fa-hands"></i>
-                <span>Artisans' Marketplace</span>
-            </div>
+            <i class="fas fa-hands"></i>
+                     <span>CraftConnect</span>
+        </div>
             <ul class="nav-menu">
                 <li><a href="../index.html">Home</a></li>
                 <li><a href="marketplace.html" class="active">Marketplace</a></li>
-                <li><a href="#">Categories</a></li>
-                <li><a href="#">Login</a></li>
+                <li><a href="#categories">Categories</a></li>
+                <li><a href="../index.html#about">About</a></li>
+               <li><a href="login.html" class="btn-primary">Login</a></li>
             </ul>
+            <div class="hamburger">
+                <i class="fas fa-bars"></i>
+            </div>
         </div>
     </nav>
 
@@ -28,31 +88,202 @@
     <section class="marketplace-header" style="background: linear-gradient(135deg, #8B5A2B, #D4A373); color: white; padding: 120px 0 60px; text-align: center;">
         <h1>Discover Handmade Treasures</h1>
         <p>Browse unique creations from talented local artisans</p>
+        
+        <!-- Added: Search Bar -->
+        <div class="search-bar" style="max-width: 600px; margin: 2rem auto; position: relative;">
+            <input type="text" placeholder="Search for products..." style="width: 100%; padding: 1rem 1.5rem; border: none; border-radius: 50px; font-size: 1rem; outline: none;">
+            <i class="fas fa-search" style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); color: #8B5A2B;"></i>
+        </div>
     </section>
 
-    <!-- Simple Product Grid -->
-    <section class="container" style="padding: 60px 0;">
+    <!-- Categories Section (Added) -->
+    <section id="categories" class="container" style="padding: 40px 0;">
+        <h2 style="text-align: center; margin-bottom: 2rem; color: #2C1810;">Shop by Category</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 1rem;">
+            <div style="background: #FAF3E0; padding: 1rem; text-align: center; border-radius: 10px; cursor: pointer;">
+                <i class="fas fa-mug-hot" style="font-size: 2rem; color: #8B5A2B;"></i>
+                <p style="margin-top: 0.5rem;">Pottery</p>
+            </div>
+            <div style="background: #FAF3E0; padding: 1rem; text-align: center; border-radius: 10px; cursor: pointer;">
+                <i class="fas fa-tshirt" style="font-size: 2rem; color: #8B5A2B;"></i>
+                <p style="margin-top: 0.5rem;">Textiles</p>
+            </div>
+            <div style="background: #FAF3E0; padding: 1rem; text-align: center; border-radius: 10px; cursor: pointer;">
+                <i class="fas fa-gem" style="font-size: 2rem; color: #8B5A2B;"></i>
+                <p style="margin-top: 0.5rem;">Jewelry</p>
+            </div>
+            <div style="background: #FAF3E0; padding: 1rem; text-align: center; border-radius: 10px; cursor: pointer;">
+                <i class="fas fa-paint-brush" style="font-size: 2rem; color: #8B5A2B;"></i>
+                <p style="margin-top: 0.5rem;">Paintings</p>
+            </div>
+            <div style="background: #FAF3E0; padding: 1rem; text-align: center; border-radius: 10px; cursor: pointer;">
+                <i class="fas fa-chair" style="font-size: 2rem; color: #8B5A2B;"></i>
+                <p style="margin-top: 0.5rem;">Woodwork</p>
+            </div>
+            <div style="background: #FAF3E0; padding: 1rem; text-align: center; border-radius: 10px; cursor: pointer;">
+                <i class="fas fa-leaf" style="font-size: 2rem; color: #8B5A2B;"></i>
+                <p style="margin-top: 0.5rem;">Handicrafts</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Grid -->
+    <section class="container" style="padding: 40px 0;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+            <h2 style="color: #2C1810;">Featured Products</h2>
+            <select style="padding: 0.5rem; border: 1px solid #D4A373; border-radius: 5px; background: white;">
+                <option>Sort by: Featured</option>
+                <option>Price: Low to High</option>
+                <option>Price: High to Low</option>
+                <option>Newest First</option>
+            </select>
+        </div>
+        
         <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 2rem;">
             <!-- Product 1 -->
-            <div style="background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+            <div style="background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1); transition: transform 0.3s;">
                 <img src="https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" style="width: 100%; height: 200px; object-fit: cover;">
                 <div style="padding: 1rem;">
                     <h3>Handcrafted Clay Pot</h3>
                     <p style="color: #666;">by Priya's Pottery</p>
-                    <p style="color: #8B5A2B; font-weight: bold;">₹899</p>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem;">
+                        <p style="color: #8B5A2B; font-weight: bold; font-size: 1.2rem;">₹899</p>
+                        <button style="background: #8B5A2B; color: white; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer;">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
             <!-- Product 2 -->
-            <div style="background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+            <div style="background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1); transition: transform 0.3s;">
                 <img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" style="width: 100%; height: 200px; object-fit: cover;">
                 <div style="padding: 1rem;">
-                    <h3>Handwoven Saree</h3>
+                    <h3>Handwoven Silk Saree</h3>
                     <p style="color: #666;">by Weavers of Varanasi</p>
-                    <p style="color: #8B5A2B; font-weight: bold;">₹3,499</p>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem;">
+                        <p style="color: #8B5A2B; font-weight: bold; font-size: 1.2rem;">₹3,499</p>
+                        <button style="background: #8B5A2B; color: white; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer;">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Product 3 -->
+            <div style="background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1); transition: transform 0.3s;">
+                <img src="https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" style="width: 100%; height: 200px; object-fit: cover;">
+                <div style="padding: 1rem;">
+                    <h3>Silver Traditional Earrings</h3>
+                    <p style="color: #666;">by Raj's Jewellery</p>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem;">
+                        <p style="color: #8B5A2B; font-weight: bold; font-size: 1.2rem;">₹1,299</p>
+                        <button style="background: #8B5A2B; color: white; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer;">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Product 4 -->
+            <div style="background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1); transition: transform 0.3s;">
+                <img src="https://images.unsplash.com/photo-1610701596007-11502861dcfa?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" style="width: 100%; height: 200px; object-fit: cover;">
+                <div style="padding: 1rem;">
+                    <h3>Wooden Wall Decor</h3>
+                    <p style="color: #666;">by Crafts by Arun</p>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem;">
+                        <p style="color: #8B5A2B; font-weight: bold; font-size: 1.2rem;">₹2,499</p>
+                        <button style="background: #8B5A2B; color: white; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer;">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Product 5 -->
+            <div style="background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1); transition: transform 0.3s;">
+                <img src="https://images.unsplash.com/photo-1515405295579-ba7b45403062?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" style="width: 100%; height: 200px; object-fit: cover;">
+                <div style="padding: 1rem;">
+                    <h3>Madhubani Painting</h3>
+                    <p style="color: #666;">by Mithila Arts</p>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem;">
+                        <p style="color: #8B5A2B; font-weight: bold; font-size: 1.2rem;">₹4,999</p>
+                        <button style="background: #8B5A2B; color: white; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer;">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Product 6 -->
+            <div style="background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1); transition: transform 0.3s;">
+                <img src="https://images.unsplash.com/photo-1605001011156-cbf0b0f67a51?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" style="width: 100%; height: 200px; object-fit: cover;">
+                <div style="padding: 1rem;">
+                    <h3>Brass Decorative Lamp</h3>
+                    <p style="color: #666;">by MetalCraft India</p>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem;">
+                        <p style="color: #8B5A2B; font-weight: bold; font-size: 1.2rem;">₹1,899</p>
+                        <button style="background: #8B5A2B; color: white; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer;">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
+        
+        <!-- Load More Button -->
+        <div style="text-align: center; margin-top: 3rem;">
+            <button style="background: transparent; color: #8B5A2B; border: 2px solid #8B5A2B; padding: 0.8rem 2rem; border-radius: 25px; cursor: pointer; font-weight: bold;">
+                Load More Products
+            </button>
+        </div>
     </section>
+
+    <!-- Footer (Added) -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-info">
+                    <div class="logo">
+                        <i class="fas fa-hands"></i>
+                        <span>Artisans' Marketplace</span>
+                    </div>
+                    <p>Connecting you with authentic craftsmanship from local artisans.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="../index.html#about">About Us</a></li>
+                        <li><a href="../index.html#features">Features</a></li>
+                        <li><a href="marketplace.html">Marketplace</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>For Artisans</h4>
+                    <ul>
+                        <li><a href="#">How to Sell</a></li>
+                        <li><a href="#">Seller Guidelines</a></li>
+                        <li><a href="#">Success Stories</a></li>
+                        <li><a href="#">FAQs</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Shipping Info</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Artisans' Marketplace. All rights reserved. | Challenge ID: CHAK36-WD-05</p>
+            </div>
+        </div>
+    </footer>
 
     <script src="../js/main.js"></script>
 </body>
