@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Product - CraftConnect</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Add Product Page Specific Styles */
+        .add-product-section {
+            padding: 40px 0;
+            background: var(--background-light);
+            min-height: calc(100vh - 200px);
+        }
+
+        .add-product-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 30px;
+        }
+
+        /* Header */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .page-header h1 {
+            font-size: 32px;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .page-header h1 i {
+            color: var(--primary-color);
+        }
+
+        .btn-back {
+            padding: 10px 20px;
+            background: transparent;
+            color: var(--text-dark);
+            text-decoration: none;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+            border: 1px solid #e0e0e0;
+        }
+
+        .btn-back:hover {
+            background: #f5f5f5;
+            transform: translateX(-3px);
+        }
+
+        /* Form Card */
+        .form-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(255, 107, 107, 0.1);
+        }
+
+        .form-section {
+            margin-bottom: 35px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .form-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .form-section h2 {
+            font-size: 20px;
+            color: var(--text-dark);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-section h2 i {
+            color: var(--primary-color);
+            font-size: 22px;
+        }
+
+        .form-section h2 span {
+            font-size: 14px;
+            color: var(--text-light);
+            font-weight: 400;
+            margin-left: 10px;
+        }
+
+        /* Form Groups */
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: var(--text-dark);
+            font-size: 15px;
+        }
+
+        .form-group label i {
+            color: var(--primary-color);
+            margin-right: 8px;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 15px;
+            transition: var(--transition);
+            background: #fafafa;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(255, 107, 107, 0.1);
+            background: var(--white);
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .input-hint {
+            font-size: 13px;
+            color: var(--text-light);
+            margin-top: 6px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .input-hint i {
+            color: var(--primary-color);
+            font-size: 12px;
+        }
+
+        /* Image Upload Area */
+        .image-upload-area {
+            border: 2px dashed #e0e0e0;
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+            background: #fafafa;
+            transition: var(--transition);
+            cursor: pointer;
+            margin-bottom: 15px;
+        }
+
+        .image-upload-area:hover {
+            border-color: var(--primary-color);
+            background: rgba(255, 107, 107, 0.02);
+        }
+
+        .image-upload-area i {
+            font-size: 48px;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            opacity: 0.8;
+        }
+
+        .image-upload-area h3 {
+            font-size: 18px;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+
+        .image-upload-area p {
+            color: var(--text-light);
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .image-upload-area .small-text {
+            font-size: 12px;
+            color: #999;
+        }
+
+        .image-preview-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .preview-item {
+            position: relative;
+            aspect-ratio: 1;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid #e0e0e0;
+        }
+
+        .preview-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .preview-item .remove-image {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            width: 24px;
+            height: 24px;
+            background: rgba(255, 68, 68, 0.9);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            transition: var(--transition);
+        }
+
+        .preview-item .remove-image:hover {
+            background: #ff4444;
+            transform: scale(1.1);
+        }
+
+        /* Category & Tags */
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .category-option {
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .category-option:hover {
+            border-color: var(--primary-color);
+        }
+
+        .category-option.selected {
+            border-color: var(--primary-color);
+            background: rgba(255, 107, 107, 0.05);
+        }
+
+        .category-option i {
+            font-size: 20px;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .category-option span {
+            display: block;
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        .tags-input {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            background: #fafafa;
+        }
+
+        .tag {
+            background: rgba(255, 107, 107, 0.1);
+            color: var(--primary-color);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .tag i {
+            font-size: 10px;
+            cursor: pointer;
+        }
+
+        .tags-input input {
+            flex: 1;
+            min-width: 120px;
+            border: none;
+            background: transparent;
+            padding: 5px;
+        }
+
+        .tags-input input:focus {
+            outline: none;
+        }
+
+        /* Price and Stock Row */
+        .price-input-wrapper {
+            position: relative;
+        }
+
+        .price-input-wrapper i {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+        }
+
+        .price-input-wrapper input {
+            padding-left: 35px;
+        }
+
+        /* Form Actions */
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        .btn-save {
+            padding: 14px 35px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-save:hover {
+            background: #ff5252;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .btn-cancel {
+            padding: 14px 35px;
+            background: transparent;
+            color: var(--text-dark);
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-cancel:hover {
+            background: #f5f5f5;
+            border-color: #999;
+        }
+
+        /* Success Message */
+        .success-message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #4CAF50;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .category-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .image-preview-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .form-card {
+                padding: 25px;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .btn-save, .btn-cancel {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .category-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="container">
+            <div class="top-bar-left">
+                <div class="logo-large">CraftConnect</div>
+            </div>
+            <div class="top-bar-center">
+                <div class="search-box">
+                    <input type="text" placeholder="Search...">
+                    <button><i class="fas fa-search"></i></button>
+                </div>
+                <div class="category-dropdown">
+                    <select>
+                        <option>All categories</option>
+                        <option>Jewelry</option>
+                        <option>Home & Living</option>
+                        <option>Bath & Beauty</option>
+                        <option>Art & Collectibles</option>
+                    </select>
+                </div>
+            </div>
+            <div class="top-bar-right">
+                <div class="auth-dropdown">
+                    <button class="auth-dropdown-btn">
+                        <i class="fas fa-user-circle"></i> My Shop <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="auth-dropdown-content">
+                        <a href="artisan-dashboard.html">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>Dashboard</span>
+                        </a>
+                        <a href="#">
+                            <i class="fas fa-box"></i>
+                            <span>My Products</span>
+                        </a>
+                        <a href="#">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span>Orders</span>
+                        </a>
+                        <div class="divider"></div>
+                        <a href="#">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </a>
+                    </div>
+                </div>
+                <span class="hello-text">Hello, Artisan!</span>
+                <div class="cart-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Navigation -->
+    <nav class="main-nav">
+        <div class="container">
+            <ul class="nav-categories">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="marketplace.html">Marketplace</a></li>
+                <li><a href="#">Jewelry</a></li>
+                <li><a href="#">Home & Living</a></li>
+                <li><a href="#">Bath & Beauty</a></li>
+                <li><a href="#">Art & Collectibles</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Add Product Section -->
+    <section class="add-product-section">
+        <div class="add-product-container">
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1>
+                    <i class="fas fa-plus-circle"></i>
+                    Add New Product
+                </h1>
+                <a href="artisan-dashboard.html" class="btn-back">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Dashboard
+                </a>
+            </div>
+
+            <!-- Product Form -->
+            <div class="form-card">
+                <form id="addProductForm">
+                    <!-- Basic Information -->
+                    <div class="form-section">
+                        <h2>
+                            <i class="fas fa-info-circle"></i>
+                            Basic Information
+                            <span>Tell buyers about your product</span>
+                        </h2>
+
+                        <div class="form-group">
+                            <label>
+                                <i class="fas fa-tag"></i>
+                                Product Name *
+                            </label>
+                            <input type="text" id="productName" placeholder="e.g., Handcrafted Clay Pot" required>
+                            <div class="input-hint">
+                                <i class="fas fa-lightbulb"></i>
+                                Choose a clear, descriptive name
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>
+                                <i class="fas fa-align-left"></i>
+                                Description *
+                            </label>
+                            <textarea id="description" placeholder="Describe your product - materials, size, story, etc." required></textarea>
+                            <div class="input-hint">
+                                <i class="fas fa-lightbulb"></i>
+                                Minimum 20 characters. Tell the story behind your craft!
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>
+                                    <i class="fas fa-rupee-sign"></i>
+                                    Price (₹) *
+                                </label>
+                                <div class="price-input-wrapper">
+                                    <i class="fas fa-rupee-sign"></i>
+                                    <input type="number" id="price" placeholder="0.00" min="0" step="0.01" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>
+                                    <i class="fas fa-box"></i>
+                                    Stock Quantity *
+                                </label>
+                                <input type="number" id="stock" placeholder="e.g., 10" min="0" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Category Selection -->
+                    <div class="form-section">
+                        <h2>
+                            <i class="fas fa-list"></i>
+                            Category
+                            <span>Where should your product appear?</span>
+                        </h2>
+
+                        <div class="category-grid">
+                            <div class="category-option selected" onclick="selectCategory('jewelry')">
+                                <i class="fas fa-gem"></i>
+                                <span>Jewelry</span>
+                            </div>
+                            <div class="category-option" onclick="selectCategory('home-living')">
+                                <i class="fas fa-home"></i>
+                                <span>Home & Living</span>
+                            </div>
+                            <div class="category-option" onclick="selectCategory('bath-beauty')">
+                                <i class="fas fa-spa"></i>
+                                <span>Bath & Beauty</span>
+                            </div>
+                            <div class="category-option" onclick="selectCategory('art')">
+                                <i class="fas fa-paint-brush"></i>
+                                <span>Art & Collectibles</span>
+                            </div>
+                            <div class="category-option" onclick="selectCategory('pottery')">
+                                <i class="fas fa-mug-hot"></i>
+                                <span>Pottery</span>
+                            </div>
+                            <div class="category-option" onclick="selectCategory('textiles')">
+                                <i class="fas fa-tshirt"></i>
+                                <span>Textiles</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product Images -->
+                    <div class="form-section">
+                        <h2>
+                            <i class="fas fa-images"></i>
+                            Product Images
+                            <span>Upload up to 4 photos</span>
+                        </h2>
+
+                        <div class="image-upload-area" id="imageUploadArea">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <h3>Click to upload images</h3>
+                            <p>or drag and drop</p>
+                            <p class="small-text">PNG, JPG, JPEG up to 5MB each</p>
+                            <input type="file" id="imageInput" multiple accept="image/*" style="display: none;">
+                        </div>
+
+                        <div class="image-preview-grid" id="imagePreviewGrid">
+                            <!-- Image previews will appear here -->
+                        </div>
+                    </div>
+
+                    <!-- Tags (Optional) -->
+                    <div class="form-section">
+                        <h2>
+                            <i class="fas fa-hashtag"></i>
+                            Tags
+                            <span>Help buyers find your product</span>
+                        </h2>
+
+                        <div class="tags-input" id="tagsContainer">
+                            <div class="tag">
+                                <span>handmade</span>
+                                <i class="fas fa-times" onclick="removeTag(this)"></i>
+                            </div>
+                            <div class="tag">
+                                <span>eco-friendly</span>
+                                <i class="fas fa-times" onclick="removeTag(this)"></i>
+                            </div>
+                            <input type="text" id="tagInput" placeholder="Add a tag and press Enter">
+                        </div>
+                        <div class="input-hint">
+                            <i class="fas fa-lightbulb"></i>
+                            Press Enter to add a tag. Maximum 5 tags.
+                        </div>
+                    </div>
+
+                    <!-- Form Actions -->
+                    <div class="form-actions">
+                        <button type="button" class="btn-cancel" onclick="cancelForm()">
+                            <i class="fas fa-times"></i>
+                            Cancel
+                        </button>
+                        <button type="submit" class="btn-save">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            Upload Product
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-info">
+                    <div class="logo">
+                        <i class="fas fa-hands"></i>
+                        <span>CraftConnect</span>
+                    </div>
+                    <p>Connecting you with authentic craftsmanship from local artisans.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="marketplace.html">Marketplace</a></li>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>For Artisans</h4>
+                    <ul>
+                        <li><a href="artisan-dashboard.html">Dashboard</a></li>
+                        <li><a href="add-product.html">Add Product</a></li>
+                        <li><a href="#">Orders</a></li>
+                        <li><a href="#">Earnings</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 CraftConnect. All rights reserved. | Challenge ID: CHAK36-WD-05</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+    // Global variable to store selected category
+    let selectedCategory = 'jewelry';
+
+    // Category selection
+    window.selectCategory = function(category) {
+        selectedCategory = category;
+        document.querySelectorAll('.category-option').forEach(opt => {
+            opt.classList.remove('selected');
+        });
+        event.currentTarget.classList.add('selected');
+        console.log('Selected category:', category);
+    };
+
+    // Image upload preview
+    document.getElementById('imageUploadArea').addEventListener('click', function() {
+        document.getElementById('imageInput').click();
+    });
+
+    document.getElementById('imageInput').addEventListener('change', function(e) {
+        const files = Array.from(e.target.files);
+        const previewGrid = document.getElementById('imagePreviewGrid');
+        
+        previewGrid.innerHTML = '';
+        
+        if (files.length > 4) {
+            alert('You can only upload up to 4 images');
+            return;
+        }
+        
+        files.slice(0, 4).forEach((file, index) => {
+            if (file.size > 5 * 1024 * 1024) {
+                alert(`File ${file.name} is too large. Maximum size is 5MB`);
+                return;
+            }
+            
+            if (!file.type.match('image.*')) {
+                alert(`File ${file.name} is not an image`);
+                return;
+            }
+            
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                const previewItem = document.createElement('div');
+                previewItem.className = 'preview-item';
+                previewItem.innerHTML = `
+                    <img src="${e.target.result}" alt="Preview ${index + 1}">
+                    <button class="remove-image" onclick="removeImage(this)">
+                        <i class="fas fa-times"></i>
+                    </button>
+                `;
+                previewGrid.appendChild(previewItem);
+            };
+            
+            reader.readAsDataURL(file);
+        });
+    });
+
+    // Remove image preview
+    window.removeImage = function(btn) {
+        btn.closest('.preview-item').remove();
+    };
+
+    // Tags functionality
+    const tagInput = document.getElementById('tagInput');
+    const tagsContainer = document.getElementById('tagsContainer');
+
+    if (tagInput) {
+        tagInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                const tagValue = this.value.trim();
+                
+                let tagExists = false;
+                document.querySelectorAll('.tag span').forEach(tag => {
+                    if (tag.textContent === tagValue) tagExists = true;
+                });
+                
+                if (tagValue && !tagExists && tagsContainer.children.length < 7) {
+                    const tag = document.createElement('div');
+                    tag.className = 'tag';
+                    tag.innerHTML = `
+                        <span>${tagValue}</span>
+                        <i class="fas fa-times" onclick="removeTag(this)"></i>
+                    `;
+                    
+                    tagsContainer.insertBefore(tag, tagInput);
+                    this.value = '';
+                } else if (tagExists) {
+                    alert('This tag already exists');
+                } else if (tagsContainer.children.length >= 7) {
+                    alert('Maximum 5 tags allowed');
+                }
+            }
+        });
+    }
+
+    window.removeTag = function(element) {
+        element.parentElement.remove();
+    };
+
+    // Form submission
+    document.getElementById('addProductForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const productName = document.getElementById('productName').value.trim();
+        const description = document.getElementById('description').value.trim();
+        const price = document.getElementById('price').value.trim();
+        const stock = document.getElementById('stock').value.trim();
+        const imageInput = document.getElementById('imageInput');
+        
+        let errors = [];
+        
+        if (!productName) {
+            errors.push('Product name is required');
+            document.getElementById('productName').style.borderColor = '#ff4444';
+        } else {
+            document.getElementById('productName').style.borderColor = '#e0e0e0';
+        }
+        
+        if (!description) {
+            errors.push('Description is required');
+            document.getElementById('description').style.borderColor = '#ff4444';
+        } else if (description.length < 20) {
+            errors.push('Description must be at least 20 characters');
+            document.getElementById('description').style.borderColor = '#ff4444';
+        } else {
+            document.getElementById('description').style.borderColor = '#e0e0e0';
+        }
+        
+        if (!price) {
+            errors.push('Price is required');
+            document.getElementById('price').style.borderColor = '#ff4444';
+        } else if (isNaN(price) || parseFloat(price) <= 0) {
+            errors.push('Please enter a valid price greater than 0');
+            document.getElementById('price').style.borderColor = '#ff4444';
+        } else {
+            document.getElementById('price').style.borderColor = '#e0e0e0';
+        }
+        
+        if (!stock) {
+            errors.push('Stock quantity is required');
+            document.getElementById('stock').style.borderColor = '#ff4444';
+        } else if (isNaN(stock) || parseInt(stock) < 0) {
+            errors.push('Please enter a valid stock quantity');
+            document.getElementById('stock').style.borderColor = '#ff4444';
+        } else {
+            document.getElementById('stock').style.borderColor = '#e0e0e0';
+        }
+        
+        if (imageInput.files.length === 0) {
+            errors.push('Please upload at least one product image');
+            document.getElementById('imageUploadArea').style.borderColor = '#ff4444';
+        } else {
+            document.getElementById('imageUploadArea').style.borderColor = '#e0e0e0';
+        }
+        
+        if (errors.length > 0) {
+            alert('Please fix the following errors:\n\n• ' + errors.join('\n• '));
+            return;
+        }
+        
+        const successMsg = document.createElement('div');
+        successMsg.className = 'success-message';
+        successMsg.innerHTML = `
+            <i class="fas fa-check-circle"></i>
+            Product "${productName}" uploaded successfully! Redirecting to dashboard...
+        `;
+        document.body.appendChild(successMsg);
+        
+        console.log('Product Uploaded:', {
+            name: productName,
+            description: description,
+            price: '₹' + price,
+            stock: stock + ' units',
+            category: selectedCategory,
+            images: imageInput.files.length + ' image(s)',
+            tags: Array.from(document.querySelectorAll('.tag span')).map(tag => tag.textContent)
+        });
+        
+        setTimeout(() => {
+            window.location.href = 'artisan-dashboard.html';
+        }, 2000);
+    });
+
+    // Cancel form
+    window.cancelForm = function() {
+        if (confirm('Are you sure? Any unsaved changes will be lost.')) {
+            window.location.href = 'artisan-dashboard.html';
+        }
+    };
+
+    // Drag and drop functionality
+    const dropArea = document.getElementById('imageUploadArea');
+    
+    if (dropArea) {
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, preventDefaults, false);
+        });
+        
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropArea.addEventListener(eventName, highlight, false);
+        });
+        
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, unhighlight, false);
+        });
+        
+        function highlight() {
+            dropArea.style.borderColor = 'var(--primary-color)';
+            dropArea.style.background = 'rgba(255, 107, 107, 0.02)';
+        }
+        
+        function unhighlight() {
+            dropArea.style.borderColor = '#e0e0e0';
+            dropArea.style.background = '#fafafa';
+        }
+        
+        dropArea.addEventListener('drop', handleDrop, false);
+        
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            document.getElementById('imageInput').files = files;
+            
+            const event = new Event('change', { bubbles: true });
+            document.getElementById('imageInput').dispatchEvent(event);
+        }
+    }
+
+    // Real-time validation hints
+    document.getElementById('productName').addEventListener('input', function() {
+        this.style.borderColor = this.value.trim().length > 0 ? '#4CAF50' : '#e0e0e0';
+    });
+
+    document.getElementById('description').addEventListener('input', function() {
+        if (this.value.trim().length >= 20) {
+            this.style.borderColor = '#4CAF50';
+        } else if (this.value.trim().length > 0) {
+            this.style.borderColor = '#FFA726';
+        } else {
+            this.style.borderColor = '#e0e0e0';
+        }
+    });
+
+    document.getElementById('price').addEventListener('input', function() {
+        this.style.borderColor = this.value > 0 ? '#4CAF50' : '#e0e0e0';
+    });
+
+    document.getElementById('stock').addEventListener('input', function() {
+        this.style.borderColor = this.value >= 0 ? '#4CAF50' : '#e0e0e0';
+    });
+    </script>
+    <script src="../js/script.js"></script>
+</body>
+</html>

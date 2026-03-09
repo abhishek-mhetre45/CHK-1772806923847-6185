@@ -628,10 +628,10 @@
                         <i class="fas fa-circle"></i>
                         Shop Active
                     </div>
-                    <a href="#" class="btn-add-product">
-                        <i class="fas fa-plus"></i>
-                        Add New Product
-                    </a>
+                    <a href="add-product.html" class="btn-add-product">
+                            <i class="fas fa-plus"></i>
+                            Add New Product
+                        </a>
                 </div>
             </div>
 
@@ -1034,7 +1034,26 @@
         </div>
     </footer>
 
-    <script src="../js/main.js"></script>
+    <script src="../js/script.js"></script>
+
+            <script>
+            // Add this at the bottom of artisan-dashboard.html
+         document.addEventListener('DOMContentLoaded', function() {
+    const addButton = document.querySelector('.btn-add-product');
+
+    if (addButton) {
+        console.log('Add button found:', addButton);
+
+        addButton.addEventListener('click', function(e) {
+            e.preventDefault(); // optional if it's inside a form
+            window.location.href = "add-product.html";
+        });
+
+        } else {
+            console.log('Add button NOT found!');
+        }
+    });
+        </script>
     <script>
         // Tab switching functionality
         function switchTab(tabName) {
@@ -1095,5 +1114,8 @@
             });
         });
     </script>
+    
+    
+
 </body>
 </html>
