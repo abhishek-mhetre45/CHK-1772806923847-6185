@@ -1,25 +1,22 @@
-body {
-    font-family: Arial;
+* {
     margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-nav {
-    display: flex;
-    justify-content: space-between;
-    background: #222;
-    color: white;
-    padding: 10px 20px;
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    padding: 20px;
 }
 
-.hero {
+h1 {
+    color: #8B5A2B;
     text-align: center;
-    padding: 60px;
-    background: #f4f4f4;
+    margin-top: 50px;
 }
 
-button {
-    padding: 10px 20px;
-    background: orange;
-    border: none;
-    cursor: pointer;
+p {
+    text-align: center;
+    color: #666;
 }
