@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment - CraftConnect</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .payment-section {
+            padding: 40px 0;
+            background: var(--background-light);
+            min-height: calc(100vh - 200px);
+        }
+
+        .payment-container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 0 30px;
+        }
+
+        .payment-card {
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            padding: 24px 28px 32px;
+        }
+
+        .payment-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+
+        .payment-header h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .payment-header h1 i {
+            color: var(--primary-color);
+        }
+
+        .payment-methods {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .method-option {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 14px;
+            border-radius: 12px;
+            border: 1px solid #e0e0e0;
+            cursor: pointer;
+            transition: var(--transition);
+            background: #fafafa;
+        }
+
+        .method-option input {
+            accent-color: var(--primary-color);
+            width: 18px;
+            height: 18px;
+        }
+
+        .method-option:hover {
+            border-color: var(--primary-color);
+            background: #fff7f7;
+        }
+
+        .method-label {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .method-label span {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .method-label small {
+            color: var(--text-light);
+            font-size: 13px;
+        }
+
+        .upi-scanner {
+            margin-top: 10px;
+            padding: 16px;
+            border-radius: 12px;
+            border: 1px dashed #e0e0e0;
+            background: #fcfcfc;
+            display: none;
+            text-align: center;
+        }
+
+        .upi-scanner img {
+            width: 180px;
+            height: 180px;
+            object-fit: contain;
+            margin-bottom: 8px;
+        }
+
+        .upi-scanner p {
+            margin: 0;
+            font-size: 13px;
+            color: var(--text-light);
+        }
+
+        .payment-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 24px;
+        }
+
+        .btn-pay {
+            padding: 12px 26px;
+            border-radius: 999px;
+            border: none;
+            background: var(--primary-color);
+            color: #fff;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 8px 18px rgba(255, 107, 107, 0.28);
+            transition: var(--transition);
+        }
+
+        .btn-pay:hover:enabled {
+            transform: translateY(-1px);
+            background: #ff5252;
+        }
+
+        .btn-pay:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        @media (max-width: 600px) {
+            .payment-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Reuse top bar + nav from cart/marketplace via CSS -->
+    <div class="top-bar">
+        <div class="container">
+            <div class="top-bar-left">
+                <div class="logo-large">CraftConnect</div>
+            </div>
+        </div>
+    </div>
+
+    <section class="payment-section">
+        <div class="payment-container">
+            <div class="payment-card">
+                <div class="payment-header">
+                    <h1><i class="fas fa-credit-card"></i> Payment</h1>
+                </div>
+
+                <div class="payment-methods">
+                    <label class="method-option">
+                        <input type="radio" name="paymentMethod" value="cod" checked>
+                        <div class="method-label">
+                            <span>Cash on Delivery</span>
+                            <small>Pay in cash when your order arrives.</small>
+                        </div>
+                    </label>
+
+                    <label class="method-option">
+                        <input type="radio" name="paymentMethod" value="upi">
+                        <div class="method-label">
+                            <span>UPI</span>
+                            <small>Scan the QR code using your UPI app.</small>
+                        </div>
+                    </label>
+
+                    <div id="upiScanner" class="upi-scanner">
+                        <img src="../images/upi_scanner.png" alt="UPI QR Scanner">
+                        <p>Scan this QR with any UPI app to complete your payment.</p>
+                    </div>
+                </div>
+
+                <div class="payment-actions">
+                    <button id="payButton" class="btn-pay">
+                        <span>Pay Now</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        const methodInputs = document.querySelectorAll('input[name=\"paymentMethod\"]');
+        const upiScanner = document.getElementById('upiScanner');
+        const payButton = document.getElementById('payButton');
+        let upiTimeoutId = null;
+
+        function updateScannerVisibility() {
+            const selected = document.querySelector('input[name=\"paymentMethod\"]:checked');
+            if (selected && selected.value === 'upi') {
+                upiScanner.style.display = 'block';
+            } else {
+                upiScanner.style.display = 'none';
+            }
+        }
+
+        methodInputs.forEach(input => {
+            input.addEventListener('change', () => {
+                if (upiTimeoutId) {
+                    clearTimeout(upiTimeoutId);
+                    upiTimeoutId = null;
+                }
+                payButton.disabled = false;
+                updateScannerVisibility();
+            });
+        });
+
+        updateScannerVisibility();
+
+        function redirectHome() {
+            window.location.href = '../index.html';
+        }
+
+        payButton.addEventListener('click', () => {
+            const selected = document.querySelector('input[name=\"paymentMethod\"]:checked');
+            if (!selected) {
+                alert('Please select a payment method.');
+                return;
+            }
+
+            if (upiTimeoutId) {
+                clearTimeout(upiTimeoutId);
+                upiTimeoutId = null;
+            }
+
+            if (selected.value === 'cod') {
+                alert('Purchase successful');
+                redirectHome();
+            } else if (selected.value === 'upi') {
+                upiScanner.style.display = 'block';
+                payButton.disabled = true;
+
+                // Show success pop-up between 5 and 10 seconds (7 seconds here)
+                upiTimeoutId = setTimeout(() => {
+                    alert('Payment successful');
+                    payButton.disabled = false;
+                    upiTimeoutId = null;
+                    redirectHome();
+                }, 7000);
+            }
+        });
+    </script>
+</body>
+</html>

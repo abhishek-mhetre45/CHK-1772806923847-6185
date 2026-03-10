@@ -117,6 +117,34 @@
             cursor: pointer;
         }
 
+        .products-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn-filter {
+            padding: 10px 16px;
+            border-radius: 10px;
+            border: 2px solid var(--primary-color);
+            background: white;
+            color: var(--primary-color);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+
+        .btn-filter:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.18);
+        }
+
+        .btn-filter.primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
         .products-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -847,6 +875,8 @@
                         <option>Pottery</option>
                         <option>Textiles</option>
                         <option>Jewelry</option>
+                        <option>Home Decor</option>
+                        <option>Bath &amp; Beauty</option>
                         <option>Painting</option>
                         <option>Woodcraft</option>
                     </select>
@@ -870,9 +900,13 @@
             <ul class="nav-categories">
                 <li><a href="../index.html">HOME</a></li>
                 <li><a href="marketplace.html" class="active">MARKETPLACE</a></li>
-                <li><a href="#categories">CATEGORIES</a></li>
-                <li><a href="../index.html#about">ABOUT</a></li>
-                <li><a href="login.html" class="btn-primary">LOGIN</a></li>
+                <li><a href="#categories">JEWELRY</a></li>
+                <li><a href="#categories">HOME & LIVING</a></li>
+                <li><a href="#categories">BATH & BEAUTY</a></li>
+                <li><a href="#categories">ART & COLLECTIBLES</a></li>
+                <li><a href="#categories">TEXTILES</a></li>
+                <li><a href="#categories">FUN & GAMES</a></li>
+                <li><a href="#categories">CELEBRATIONS</a></li>
             </ul>
         </div>
     </nav>
@@ -897,13 +931,13 @@
                 <i class="fas fa-home"></i>
                 <h3>Home Decor</h3>
             </div>
+            <div class="category-card" onclick="filterByCategory('Bath &amp; Beauty')">
+                <i class="fas fa-spa"></i>
+                <h3>Bath &amp; Beauty</h3>
+            </div>
             <div class="category-card" onclick="filterByCategory('Jewelry')">
                 <i class="fas fa-gem"></i>
                 <h3>Jewelry</h3>
-            </div>
-            <div class="category-card" onclick="filterByCategory('Apparel')">
-                <i class="fas fa-tshirt"></i>
-                <h3>Apparel</h3>
             </div>
             <div class="category-card" onclick="filterByCategory('Art')">
                 <i class="fas fa-paint-brush"></i>
@@ -916,17 +950,25 @@
     <section class="container">
         <div class="products-header">
             <h2>Marketplace</h2>
-            <select class="sort-select" onchange="sortProducts(this.value)">
-                <option>Featured</option>
-                <option>Price: Low to High</option>
-                <option>Price: High to Low</option>
-                <option>Newest First</option>
-            </select>
+            <div class="products-actions">
+                <button class="btn-filter primary" type="button" onclick="showHomeBeautyOnly()">
+                    All Available Home and Beauty
+                </button>
+                <button class="btn-filter" type="button" onclick="showAllProducts()">
+                    Show All
+                </button>
+                <select class="sort-select" onchange="sortProducts(this.value)">
+                    <option>Featured</option>
+                    <option>Price: Low to High</option>
+                    <option>Price: High to Low</option>
+                    <option>Newest First</option>
+                </select>
+            </div>
         </div>
         
         <div class="products-grid" id="productsGrid">
-            <!-- Product 1 -->
-            <div class="product-card" onclick="showProductDetail(1)">
+            <!-- Product 1 - Pottery -->
+            <div class="product-card" data-category="Pottery" onclick="showProductDetail(1)">
                 <div class="product-image">
                     <img src="https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Handcrafted Clay Pot">
                 </div>
@@ -942,10 +984,10 @@
                 </div>
             </div>
 
-            <!-- Product 2 -->
-            <div class="product-card" onclick="showProductDetail(2)">
+            <!-- Product 2 - Textiles -->
+            <div class="product-card" data-category="Textiles" onclick="showProductDetail(2)">
                 <div class="product-image">
-                    <img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Handwoven Silk Saree">
+                    <img src="../images/silk_saree1.png" alt="Handwoven Silk Saree">
                 </div>
                 <div class="product-info">
                     <h3>Handwoven Silk Saree</h3>
@@ -959,8 +1001,8 @@
                 </div>
             </div>
 
-            <!-- Product 3 -->
-            <div class="product-card" onclick="showProductDetail(3)">
+            <!-- Product 3 - Jewelry (Earrings) -->
+            <div class="product-card" data-category="Jewelry" onclick="showProductDetail(3)">
                 <div class="product-image">
                     <img src="https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Silver Earrings">
                 </div>
@@ -976,8 +1018,42 @@
                 </div>
             </div>
 
-            <!-- Product 4 -->
-            <div class="product-card" onclick="showProductDetail(4)">
+            <!-- Product 7 - Jewelry (Toe Ring) -->
+            <div class="product-card" data-category="Jewelry" onclick="showProductDetail(7)">
+                <div class="product-image">
+                    <img src="../images/ring1.png" alt="Braided Toe Ring">
+                </div>
+                <div class="product-info">
+                    <h3>Braided Adjustable Toe Ring</h3>
+                    <p class="product-artisan">by Aurora Jewelry</p>
+                    <div class="product-footer">
+                        <span class="product-price">₹799</span>
+                        <button class="btn-add-cart" onclick="event.stopPropagation(); addToCart(7)">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 8 - Jewelry (Star Ring) -->
+            <div class="product-card" data-category="Jewelry" onclick="showProductDetail(8)">
+                <div class="product-image">
+                    <img src="../images/star_ring1.png" alt="Silver Star Ring">
+                </div>
+                <div class="product-info">
+                    <h3>Silver Star Open Ring</h3>
+                    <p class="product-artisan">by Raj's Jewellery</p>
+                    <div class="product-footer">
+                        <span class="product-price">₹599</span>
+                        <button class="btn-add-cart" onclick="event.stopPropagation(); addToCart(8)">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 4 - Home Decor -->
+            <div class="product-card" data-category="Home Decor" onclick="showProductDetail(4)">
                 <div class="product-image">
                     <img src="https://images.unsplash.com/photo-1610701596007-11502861dcfa?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Wooden Decor">
                 </div>
@@ -993,8 +1069,8 @@
                 </div>
             </div>
 
-            <!-- Product 5 -->
-            <div class="product-card" onclick="showProductDetail(5)">
+            <!-- Product 5 - Painting / Art -->
+            <div class="product-card" data-category="Painting" onclick="showProductDetail(5)">
                 <div class="product-image">
                     <img src="https://images.unsplash.com/photo-1515405295579-ba7b45403062?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Madhubani Painting">
                 </div>
@@ -1010,10 +1086,27 @@
                 </div>
             </div>
 
-            <!-- Product 6 -->
-            <div class="product-card" onclick="showProductDetail(6)">
+            <!-- Product 16 - Art (Leaf Collage) -->
+            <div class="product-card" data-category="Art" onclick="showProductDetail(16)">
                 <div class="product-image">
-                    <img src="https://images.unsplash.com/photo-1605001011156-cbf0b0f67a51?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Brass Lamp">
+                    <img src="../images/art_leaf_1.png" alt="Leaf Collage Frame">
+                </div>
+                <div class="product-info">
+                    <h3>Leaf Collage Art Frame</h3>
+                    <p class="product-artisan">by Nature Craft Studio</p>
+                    <div class="product-footer">
+                        <span class="product-price">₹1,299</span>
+                        <button class="btn-add-cart" onclick="event.stopPropagation(); addToCart(16)">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 6 - Home Decor -->
+            <div class="product-card" data-category="Home Decor" onclick="showProductDetail(6)">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Brass Lamp">
                 </div>
                 <div class="product-info">
                     <h3>Brass Decorative Lamp</h3>
@@ -1021,6 +1114,136 @@
                     <div class="product-footer">
                         <span class="product-price">₹1,899</span>
                         <button class="btn-add-cart" onclick="event.stopPropagation(); addToCart(6)">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Home & Beauty Collection -->
+            <div class="product-card" data-category="Home Decor" data-collection="home-beauty" onclick="showProductDetail(9)">
+                <div class="product-image">
+                    <img src="../images/home_beauty_1.png" alt="Handmade Embroidery Hoop Art">
+                </div>
+                <div class="product-info">
+                    <h3>Embroidery Hoop Art</h3>
+                    <p class="product-artisan">by Thread &amp; Bloom Studio</p>
+                    <div class="product-footer">
+                        <span class="product-price">₹499</span>
+                        <button class="btn-add-cart" onclick="event.stopPropagation(); addToCart(9)">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="Home Decor" data-collection="home-beauty" onclick="showProductDetail(10)">
+                <div class="product-image">
+                    <img src="../images/home_beauty_2.png" alt="Personalized Photo Frame Hoop">
+                </div>
+                <div class="product-info">
+                    <h3>Personalized Photo Frame Hoop</h3>
+                    <p class="product-artisan">by Memory Stitch Crafts</p>
+                    <div class="product-footer">
+                        <span class="product-price">₹699</span>
+                        <button class="btn-add-cart" onclick="event.stopPropagation(); addToCart(10)">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="Home Decor" data-collection="home-beauty" onclick="showProductDetail(11)">
+                <div class="product-image">
+                    <img src="../images/home_beauty_3.png" alt="Desk Caddy - Clay Set">
+                </div>
+                <div class="product-info">
+                    <h3>Minimal Desk Caddy</h3>
+                    <p class="product-artisan">by The Desk Caddy</p>
+                    <div class="product-footer">
+                        <span class="product-price">₹899</span>
+                        <button class="btn-add-cart" onclick="event.stopPropagation(); addToCart(11)">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="Home Decor" data-collection="home-beauty" onclick="showProductDetail(12)">
+                <div class="product-image">
+                    <img src="../images/home_beauty_4.png" alt="Desk Organizer - Printable Template">
+                </div>
+                <div class="product-info">
+                    <h3>Desk Organizer Template</h3>
+                    <p class="product-artisan">by Studio Minimal</p>
+                    <div class="product-footer">
+                        <span class="product-price">₹299</span>
+                        <button class="btn-add-cart" onclick="event.stopPropagation(); addToCart(12)">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="Bath &amp; Beauty" data-collection="home-beauty" onclick="showProductDetail(13)">
+                <div class="product-image">
+                    <img src="../images/bath_beauty_1.png" alt="Handmade Bath &amp; Beauty Item">
+                </div>
+                <div class="product-info">
+                    <h3>Handmade Bath &amp; Beauty Item</h3>
+                    <p class="product-artisan">by GlowCraft Studio</p>
+                    <div class="product-footer">
+                        <span class="product-price">₹799</span>
+                        <button class="btn-add-cart" onclick="event.stopPropagation(); addToCart(13)">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Woodcraft Collection -->
+            <div class="product-card" data-category="Woodcraft" onclick="showProductDetail(20)">
+                <div class="product-image">
+                    <img src="C:/Users/amhet/.cursor/projects/d-artisans-marketplace-updated-2/assets/c__Users_amhet_AppData_Roaming_Cursor_User_workspaceStorage_22dfec927fb1a31a47b417e1f09c76d2_images_wood_4-a65b923f-c003-4f1f-9d95-ce9ed7a58609.png" alt="Wooden Winter Village Lamp">
+                </div>
+                <div class="product-info">
+                    <h3>Wooden Winter Village Lamp</h3>
+                    <p class="product-artisan">by Heritage Wood Studio</p>
+                    <div class="product-footer">
+                        <span class="product-price">₹3,499</span>
+                        <button class="btn-add-cart" onclick="event.stopPropagation(); addToCart(20)">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="Woodcraft" onclick="showProductDetail(21)">
+                <div class="product-image">
+                    <img src="C:/Users/amhet/.cursor/projects/d-artisans-marketplace-updated-2/assets/c__Users_amhet_AppData_Roaming_Cursor_User_workspaceStorage_22dfec927fb1a31a47b417e1f09c76d2_images_Wood_5-3f71b233-f4ae-4731-afc6-751ff8c24787.png" alt="Tribal Wood Art Frame">
+                </div>
+                <div class="product-info">
+                    <h3>Tribal Wood Art Frame</h3>
+                    <p class="product-artisan">by Rustic Roots Crafts</p>
+                    <div class="product-footer">
+                        <span class="product-price">₹3,999</span>
+                        <button class="btn-add-cart" onclick="event.stopPropagation(); addToCart(21)">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="Woodcraft" onclick="showProductDetail(22)">
+                <div class="product-image">
+                    <img src="C:/Users/amhet/.cursor/projects/d-artisans-marketplace-updated-2/assets/c__Users_amhet_AppData_Roaming_Cursor_User_workspaceStorage_22dfec927fb1a31a47b417e1f09c76d2_images_Wood_6-b5cb0178-d0a0-42a8-b90d-bd3dac8951b0.png" alt="Carved Goddess Wall Panel">
+                </div>
+                <div class="product-info">
+                    <h3>Carved Goddess Wall Panel</h3>
+                    <p class="product-artisan">by Divine Woods Studio</p>
+                    <div class="product-footer">
+                        <span class="product-price">₹4,799</span>
+                        <button class="btn-add-cart" onclick="event.stopPropagation(); addToCart(22)">
                             <i class="fas fa-shopping-cart"></i>
                         </button>
                     </div>
@@ -1316,12 +1539,11 @@
                 popularRange: "₹899 - ₹1,999",
                 priceOptions: ["₹899", "₹1,299", "₹1,599", "₹1,999"],
                 description: "Handcrafted clay pot made by skilled artisans. Each piece is unique and made with love.",
-                image: "https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
+                image: "../images/pot1.png",
                 thumbnails: [
-                    "https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
-                    "https://images.unsplash.com/photo-1584917865442-de89df76afd3?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
-                    "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
-                    "https://images.unsplash.com/photo-1610701596007-11502861dcfa?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80"
+                    "../images/pot1.png",
+                    "../images/pot2.png",
+                    "../images/pot3.png"
                 ],
                 rating: 4.5,
                 reviews: 24
@@ -1335,12 +1557,11 @@
                 popularRange: "₹1,999 - ₹6,990",
                 priceOptions: ["₹899", "₹1,299", "₹1,999", "₹2,499"],
                 description: "The Weavers of Varanasi are multi-generational most executive skills, and multi-generational skills and tun-weverx-med a saver navy bastnarten present and growing over urscraint pnters seem the-coum of threking like Weavers of Varanasi.",
-                image: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
+                image: "../images/silk_saree1.png",
                 thumbnails: [
-                    "https://images.unsplash.com/photo-1584917865442-de89df76afd3?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
-                    "https://images.unsplash.com/photo-1605000797499-95a51c5269ae?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
-                    "https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
-                    "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80"
+                    "../images/silk_saree1.png",
+                    "../images/silk_saree2.png",
+                    "../images/silk_saree3.png"
                 ],
                 rating: 4.5,
                 reviews: 28
@@ -1357,12 +1578,50 @@
                 image: "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
                 thumbnails: [
                     "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
-                    "https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
-                    "https://images.unsplash.com/photo-1584917865442-de89df76afd3?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
-                    "https://images.unsplash.com/photo-1610701596007-11502861dcfa?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80"
+                    "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+                    "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+                    "https://images.unsplash.com/photo-1611652022419-a9419f74343c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80"
                 ],
                 rating: 4.5,
                 reviews: 32
+            },
+            7: {
+                title: "Braided Adjustable Toe Ring",
+                artisan: "Aurora Jewelry",
+                category: "Jewelry",
+                price: "₹799",
+                priceRange: "₹799 - ₹1,299",
+                popularRange: "₹799 - ₹999",
+                priceOptions: ["₹799", "₹999", "₹1,199", "₹1,299"],
+                description: "Delicate braided adjustable toe ring available in silver and gold finishes, perfect for everyday wear.",
+                image: "../images/ring1.png",
+                thumbnails: [
+                    "../images/ring1.png",
+                    "../images/ring2.png",
+                    "../images/ring3.png",
+                    "../images/ring4.png"
+                ],
+                rating: 4.7,
+                reviews: 19
+            },
+            8: {
+                title: "Silver Star Open Ring",
+                artisan: "Raj's Jewellery",
+                category: "Jewelry",
+                price: "₹599",
+                priceRange: "₹599 - ₹999",
+                popularRange: "₹599 - ₹799",
+                priceOptions: ["₹599", "₹699", "₹799", "₹999"],
+                description: "Minimalist open-ended silver ring with five-pointed star embellishments. Adjustable design for a perfect fit.",
+                image: "../images/star_ring1.png",
+                thumbnails: [
+                    "../images/star_ring1.png",
+                    "../images/star_ring2.png",
+                    "../images/star_ring3.png",
+                    "../images/star_ring4.png"
+                ],
+                rating: 4.6,
+                reviews: 12
             },
             4: {
                 title: "Wooden Wall Decor",
@@ -1376,9 +1635,9 @@
                 image: "https://images.unsplash.com/photo-1610701596007-11502861dcfa?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
                 thumbnails: [
                     "https://images.unsplash.com/photo-1610701596007-11502861dcfa?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
-                    "https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
-                    "https://images.unsplash.com/photo-1584917865442-de89df76afd3?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
-                    "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80"
+                    "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+                    "https://images.unsplash.com/photo-1616046229478-9901c5536a45?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+                    "https://images.unsplash.com/photo-1574634534894-89d7576c8259?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80"
                 ],
                 rating: 4.5,
                 reviews: 18
@@ -1395,9 +1654,9 @@
                 image: "https://images.unsplash.com/photo-1515405295579-ba7b45403062?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
                 thumbnails: [
                     "https://images.unsplash.com/photo-1515405295579-ba7b45403062?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
-                    "https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
-                    "https://images.unsplash.com/photo-1584917865442-de89df76afd3?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
-                    "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80"
+                    "https://images.unsplash.com/photo-1541961017774-22349e4a1262?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+                    "https://images.unsplash.com/photo-1561214115-f2f134cc4912?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+                    "https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80"
                 ],
                 rating: 4.5,
                 reviews: 15
@@ -1411,15 +1670,153 @@
                 popularRange: "₹1,899 - ₹3,499",
                 priceOptions: ["₹1,299", "₹1,599", "₹1,899", "₹2,299"],
                 description: "Handcrafted brass lamp with intricate designs. Adds a traditional touch to your home.",
-                image: "https://images.unsplash.com/photo-1605001011156-cbf0b0f67a51?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
+                image: "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
                 thumbnails: [
-                    "https://images.unsplash.com/photo-1605001011156-cbf0b0f67a51?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
-                    "https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
-                    "https://images.unsplash.com/photo-1584917865442-de89df76afd3?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
-                    "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80"
+                    "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+                    "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80"
                 ],
                 rating: 4.5,
                 reviews: 22
+            },
+            9: {
+                title: "Embroidery Hoop Art",
+                artisan: "Thread & Bloom Studio",
+                category: "Home Decor",
+                price: "₹499",
+                priceRange: "₹499 - ₹999",
+                popularRange: "₹499 - ₹699",
+                priceOptions: ["₹499", "₹599", "₹699", "₹999"],
+                description: "Handmade embroidery hoop art — a unique piece for home décor and gifting.",
+                image: "../images/home_beauty_1.png",
+                thumbnails: ["../images/home_beauty_1.png"],
+                rating: 4.6,
+                reviews: 11
+            },
+            10: {
+                title: "Personalized Photo Frame Hoop",
+                artisan: "Memory Stitch Crafts",
+                category: "Home Decor",
+                price: "₹699",
+                priceRange: "₹699 - ₹1,299",
+                popularRange: "₹699 - ₹999",
+                priceOptions: ["₹699", "₹799", "₹999", "₹1,299"],
+                description: "A personalized photo frame hoop with embroidery details — perfect for special memories.",
+                image: "../images/home_beauty_2.png",
+                thumbnails: ["../images/home_beauty_2.png"],
+                rating: 4.7,
+                reviews: 14
+            },
+            11: {
+                title: "Minimal Desk Caddy",
+                artisan: "The Desk Caddy",
+                category: "Home Decor",
+                price: "₹899",
+                priceRange: "₹899 - ₹1,899",
+                popularRange: "₹899 - ₹1,299",
+                priceOptions: ["₹899", "₹1,099", "₹1,299", "₹1,899"],
+                description: "A clean, minimal desk caddy for stationery and small essentials.",
+                image: "../images/home_beauty_3.png",
+                thumbnails: ["../images/home_beauty_3.png"],
+                rating: 4.5,
+                reviews: 9
+            },
+            12: {
+                title: "Desk Organizer Template",
+                artisan: "Studio Minimal",
+                category: "Home Decor",
+                price: "₹299",
+                priceRange: "₹299 - ₹499",
+                popularRange: "₹299 - ₹399",
+                priceOptions: ["₹299", "₹349", "₹399", "₹499"],
+                description: "Printable desk organizer template for a neat workspace.",
+                image: "../images/home_beauty_4.png",
+                thumbnails: ["../images/home_beauty_4.png"],
+                rating: 4.4,
+                reviews: 7
+            },
+            13: {
+                title: "Handmade Bath & Beauty Item",
+                artisan: "GlowCraft Studio",
+                category: "Bath & Beauty",
+                price: "₹799",
+                priceRange: "₹799 - ₹1,499",
+                popularRange: "₹799 - ₹999",
+                priceOptions: ["₹799", "₹899", "₹999", "₹1,499"],
+                description: "Handmade bath & beauty item crafted for daily self-care.",
+                image: "../images/bath_beauty_1.png",
+                thumbnails: [
+                    "../images/bath_beauty_1.png",
+                    "../images/bath_beauty_2.png",
+                    "../images/bath_beauty_3.png"
+                ],
+                rating: 4.6,
+                reviews: 10
+            },
+            16: {
+                title: "Leaf Collage Art Frame",
+                artisan: "Nature Craft Studio",
+                category: "Art",
+                price: "₹1,299",
+                priceRange: "₹1,299 - ₹2,999",
+                popularRange: "₹1,299 - ₹1,999",
+                priceOptions: ["₹1,299", "₹1,599", "₹1,999", "₹2,499"],
+                description: "Whimsical framed art made with real dried leaves arranged as playful characters.",
+                image: "../images/art_leaf_1.png",
+                thumbnails: [
+                    "../images/art_leaf_1.png",
+                    "../images/art_leaf_2.png",
+                    "../images/art_leaf_3.png"
+                ],
+                rating: 4.8,
+                reviews: 6
+            },
+            20: {
+                title: "Wooden Winter Village Lamp",
+                artisan: "Heritage Wood Studio",
+                category: "Woodcraft",
+                price: "₹3,499",
+                priceRange: "₹3,499 - ₹4,999",
+                popularRange: "₹3,499 - ₹3,999",
+                priceOptions: ["₹3,499", "₹3,799", "₹3,999", "₹4,299"],
+                description: "Intricately carved wooden winter village lamp that casts a warm festive glow in any room.",
+                image: "C:/Users/amhet/.cursor/projects/d-artisans-marketplace-updated-2/assets/c__Users_amhet_AppData_Roaming_Cursor_User_workspaceStorage_22dfec927fb1a31a47b417e1f09c76d2_images_wood_4-a65b923f-c003-4f1f-9d95-ce9ed7a58609.png",
+                thumbnails: [
+                    "C:/Users/amhet/.cursor/projects/d-artisans-marketplace-updated-2/assets/c__Users_amhet_AppData_Roaming_Cursor_User_workspaceStorage_22dfec927fb1a31a47b417e1f09c76d2_images_wood_4-a65b923f-c003-4f1f-9d95-ce9ed7a58609.png"
+                ],
+                rating: 4.7,
+                reviews: 18
+            },
+            21: {
+                title: "Tribal Wood Art Frame",
+                artisan: "Rustic Roots Crafts",
+                category: "Woodcraft",
+                price: "₹3,999",
+                priceRange: "₹3,499 - ₹4,999",
+                popularRange: "₹3,499 - ₹3,999",
+                priceOptions: ["₹3,499", "₹3,799", "₹3,999", "₹4,499"],
+                description: "Hand-cut tribal silhouettes mounted in a solid wood frame, perfect for statement walls.",
+                image: "C:/Users/amhet/.cursor/projects/d-artisans-marketplace-updated-2/assets/c__Users_amhet_AppData_Roaming_Cursor_User_workspaceStorage_22dfec927fb1a31a47b417e1f09c76d2_images_Wood_5-3f71b233-f4ae-4731-afc6-751ff8c24787.png",
+                thumbnails: [
+                    "C:/Users/amhet/.cursor/projects/d-artisans-marketplace-updated-2/assets/c__Users_amhet_AppData_Roaming_Cursor_User_workspaceStorage_22dfec927fb1a31a47b417e1f09c76d2_images_Wood_5-3f71b233-f4ae-4731-afc6-751ff8c24787.png"
+                ],
+                rating: 4.6,
+                reviews: 12
+            },
+            22: {
+                title: "Carved Goddess Wall Panel",
+                artisan: "Divine Woods Studio",
+                category: "Woodcraft",
+                price: "₹4,799",
+                priceRange: "₹4,499 - ₹5,000",
+                popularRange: "₹4,499 - ₹4,799",
+                priceOptions: ["₹4,499", "₹4,699", "₹4,799", "₹4,999"],
+                description: "Detailed hand-carved wooden panel depicting a divine goddess, ideal as a premium wall accent.",
+                image: "C:/Users/amhet/.cursor/projects/d-artisans-marketplace-updated-2/assets/c__Users_amhet_AppData_Roaming_Cursor_User_workspaceStorage_22dfec927fb1a31a47b417e1f09c76d2_images_Wood_6-b5cb0178-d0a0-42a8-b90d-bd3dac8951b0.png",
+                thumbnails: [
+                    "C:/Users/amhet/.cursor/projects/d-artisans-marketplace-updated-2/assets/c__Users_amhet_AppData_Roaming_Cursor_User_workspaceStorage_22dfec927fb1a31a47b417e1f09c76d2_images_Wood_6-b5cb0178-d0a0-42a8-b90d-bd3dac8951b0.png"
+                ],
+                rating: 4.8,
+                reviews: 9
             }
         };
 
@@ -1666,9 +2063,67 @@
         }
 
         // Filter functions
+        let currentCategory = 'All categories';
+
         function filterByCategory(category) {
-            alert(`Filtering by category: ${category}`);
-            // Implement category filtering logic here
+            currentCategory = category || 'All categories';
+
+            const cards = Array.from(document.querySelectorAll('#productsGrid .product-card'));
+            const noResults = document.getElementById('noResultsMessage');
+
+            const normalizedCategory = currentCategory.toLowerCase();
+            let visibleCount = 0;
+
+            cards.forEach(card => {
+                const cardCategory = (card.dataset.category || '').toLowerCase();
+
+                const matchesCategory =
+                    normalizedCategory === 'all categories' ||
+                    normalizedCategory === 'all' ||
+                    (cardCategory && cardCategory === normalizedCategory);
+
+                card.style.display = matchesCategory ? '' : 'none';
+                if (matchesCategory) visibleCount += 1;
+            });
+
+            if (noResults) {
+                noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+            }
+
+            const productsSection = document.getElementById('productsGrid');
+            if (productsSection) {
+                productsSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function showHomeBeautyOnly() {
+            currentCategory = 'Home+Beauty';
+            const cards = Array.from(document.querySelectorAll('#productsGrid .product-card'));
+            const noResults = document.getElementById('noResultsMessage');
+
+            let visibleCount = 0;
+            cards.forEach(card => {
+                const match = (card.dataset.collection || '') === 'home-beauty';
+                card.style.display = match ? '' : 'none';
+                if (match) visibleCount += 1;
+            });
+
+            if (noResults) {
+                noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+            }
+
+            const productsSection = document.getElementById('productsGrid');
+            if (productsSection) {
+                productsSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function showAllProducts() {
+            currentCategory = 'All categories';
+            const cards = Array.from(document.querySelectorAll('#productsGrid .product-card'));
+            const noResults = document.getElementById('noResultsMessage');
+            cards.forEach(card => (card.style.display = ''));
+            if (noResults) noResults.style.display = 'none';
         }
 
         function filterByPrice(range) {
@@ -1677,12 +2132,32 @@
         }
 
         function sortProducts(sortBy) {
-            alert(`Sorting by: ${sortBy}`);
-            // Implement sorting logic here
+            console.log(`Sorting by: ${sortBy}`);
+            // Sorting logic can be added later if needed
         }
         
         document.addEventListener('DOMContentLoaded', function () {
             initMarketplaceSearch();
+
+            // Hook category dropdown on marketplace page
+            const categorySelect = document.querySelector('.category-dropdown select');
+            if (categorySelect) {
+                categorySelect.addEventListener('change', function () {
+                    filterByCategory(this.value);
+                });
+                // Apply category from URL (e.g. ?category=Home%20Decor)
+                const params = new URLSearchParams(window.location.search);
+                const categoryParam = params.get('category');
+                if (categoryParam) {
+                    categorySelect.value = categoryParam;
+                    filterByCategory(categoryParam);
+                }
+
+                const collectionParam = params.get('collection');
+                if (collectionParam && collectionParam.toLowerCase() === 'home-beauty') {
+                    showHomeBeautyOnly();
+                }
+            }
         });
     </script>
 </body>

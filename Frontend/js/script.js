@@ -2,6 +2,30 @@
 // CraftConnect Main Script
 // ===============================
 
+// ---------- SIMPLE LANDING REDIRECT ----------
+
+// Very lightweight "landing page" behavior:
+// when a user first opens the home page (index.html),
+// send them to the dedicated login page instead.
+(function redirectHomeToLoginOnce() {
+    try {
+        const path = window.location.pathname.toLowerCase();
+        const isHome =
+            path.endsWith("/index.html") ||
+            path.endsWith("/frontend/") ||
+            path.endsWith("/frontend");
+
+        const hasSeenLogin = localStorage.getItem("cc_seenLogin") === "true";
+
+        if (isHome && !hasSeenLogin) {
+            localStorage.setItem("cc_seenLogin", "true");
+            window.location.href = "pages/login.html";
+        }
+    } catch (e) {
+        // Fail silently if localStorage is not available
+    }
+})();
+
 // ---------- CART FUNCTIONS ----------
 
 // Get cart from localStorage
