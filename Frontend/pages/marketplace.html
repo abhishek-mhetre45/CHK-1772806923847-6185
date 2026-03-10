@@ -838,8 +838,8 @@
             </div>
             <div class="top-bar-center">
                 <div class="search-box">
-                    <input type="text" placeholder="Search for products...">
-                    <button><i class="fas fa-search"></i></button>
+                    <input type="text" id="topSearchInput" placeholder="Search for products...">
+                    <button type="button" id="topSearchButton"><i class="fas fa-search"></i></button>
                 </div>
                 <div class="category-dropdown">
                     <select>
@@ -883,7 +883,7 @@
             <h1>Discover Handmade Treasures</h1>
             <p>Browse unique creations from talented local artisans</p>
             <div class="search-bar">
-                <input type="text" placeholder="Search for products...">
+                <input type="text" id="marketSearchInput" placeholder="Search for products...">
                 <i class="fas fa-search"></i>
             </div>
         </div>
@@ -1027,6 +1027,9 @@
                 </div>
             </div>
         </div>
+        <div id="noResultsMessage" style="display:none; text-align:center; padding: 30px 0; color: var(--text-light);">
+            No matching items found.
+        </div>
     </section>
 
     <!-- Product Detail Section (Initially Hidden) -->
@@ -1099,18 +1102,18 @@
                             </div>
 
                             <!-- Order Section -->
-                            <div class="order-section">
-                                <div class="quantity-selector">
-                                    <button class="quantity-btn" onclick="decrementQuantity()">-</button>
-                                    <input type="text" class="quantity-input" id="quantity" value="1" readonly>
-                                    <button class="quantity-btn" onclick="incrementQuantity()">+</button>
-                                </div>
-                                <button class="btn-add-to-cart" onclick="addToCartFromDetail()">
-                                    <i class="fas fa-shopping-cart"></i>
-                                    Add to Cart
-                                </button>
-                            </div>
+                           <div class="order-section">
+    <div class="quantity-selector">
+        <button class="quantity-btn" onclick="decrementQuantity()">-</button>
+        <input type="text" class="quantity-input" id="quantity" value="1" readonly>
+        <button class="quantity-btn" onclick="incrementQuantity()">+</button>
+    </div>
 
+    <button class="btn-add-to-cart" onclick="addToCartFromDetail()">
+        <i class="fas fa-shopping-cart"></i>
+        Add to Cart
+    </button>
+</div>
                             <!-- Description Tabs -->
                             <div class="description-tabs">
                                 <div class="tab-headers">
@@ -1512,58 +1515,156 @@
             }
         }
 
-    function addToCart(productId) {
+        function parseRupees(value) {
+            if (typeof value === 'number') return value;
+            if (!value) return 0;
+            const digits = String(value).replace(/[^\d]/g, '');
+            return digits ? Number(digits) : 0;
+        }
 
-    const product = products[productId];
+        // Add to cart function
+        function addToCart(productId) {
+            const product = products[productId];
+            if (!product) {
+                console.error('Product not found:', productId);
+                return;
+            }
 
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            // Get existing cart
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-    const existingItem = cart.find(item => item.id === productId);
+            // Check if product already exists
+            const existingItem = cart.find(item => Number(item.id) === Number(productId));
 
-    if (existingItem) {
-        existingItem.quantity += 1;
-    } else {
-        cart.push({
-            id: productId,
-            name: product.title,
-            price: parseInt(product.price.replace(/[₹,]/g, "")),
-            image: product.image,
-            artisan: product.artisan,
-            quantity: 1
-        });
-    }
+            if (existingItem) {
+                existingItem.quantity = (existingItem.quantity || 1) + 1;
+            } else {
+                cart.push({
+                    id: Number(productId),
+                    name: product.title,
+                    price: parseRupees(product.price),
+                    image: (product.thumbnails && product.thumbnails[0]) ? product.thumbnails[0] : product.image,
+                    artisan: product.artisan,
+                    quantity: 1
+                });
+            }
 
-    localStorage.setItem("cart", JSON.stringify(cart));
+            // Save to localStorage
+            localStorage.setItem('cart', JSON.stringify(cart));
 
-    alert(`${product.title} added to cart`);
-}
+            // Update cart count
+            if (typeof updateCartCount === 'function') {
+                updateCartCount();
+            }
+
+            console.log('Cart updated:', cart); // For debugging
+            alert(`${product.title} added to cart!`);
+        }
 
         function addToCartFromDetail() {
+            const quantity = parseInt(document.getElementById('quantity').value) || 1;
+            const product = products[currentProductId];
 
-    const quantity = parseInt(document.getElementById('quantity').value);
-    const product = products[currentProductId];
+            if (!product) {
+                console.error('No product selected');
+                return;
+            }
 
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            // Get existing cart
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-    const existingItem = cart.find(item => item.id === currentProductId);
+            // Check if product already exists
+            const existingItem = cart.find(item => Number(item.id) === Number(currentProductId));
 
-    if (existingItem) {
-        existingItem.quantity += quantity;
-    } else {
-        cart.push({
-            id: currentProductId,
-            name: product.title,
-            price: parseInt(product.price.replace(/[₹,]/g, "")),
-            image: product.image,
-            artisan: product.artisan,
-            quantity: quantity
-        });
-    }
+            if (existingItem) {
+                existingItem.quantity = (existingItem.quantity || 1) + quantity;
+            } else {
+                cart.push({
+                    id: Number(currentProductId),
+                    name: product.title,
+                    price: parseRupees(product.price),
+                    image: (product.thumbnails && product.thumbnails[0]) ? product.thumbnails[0] : product.image,
+                    artisan: product.artisan,
+                    quantity
+                });
+            }
 
-    localStorage.setItem("cart", JSON.stringify(cart));
+            // Save to localStorage
+            localStorage.setItem('cart', JSON.stringify(cart));
 
-    alert(`${quantity} × ${product.title} added to cart`);
-}
+            // Update cart count
+            if (typeof updateCartCount === 'function') {
+                updateCartCount();
+            }
+
+            console.log('Cart updated from detail:', cart);
+            alert(`Added ${quantity} × ${product.title} to cart!`);
+        }
+        function normalizeText(value) {
+            return String(value || '')
+                .toLowerCase()
+                .replace(/\s+/g, ' ')
+                .trim();
+        }
+
+        function applyMarketplaceSearch(rawQuery) {
+            const query = normalizeText(rawQuery);
+            const cards = Array.from(document.querySelectorAll('#productsGrid .product-card'));
+            const noResults = document.getElementById('noResultsMessage');
+
+            let visibleCount = 0;
+
+            cards.forEach(card => {
+                const haystack = normalizeText(card.textContent);
+                const match = query === '' || haystack.includes(query);
+                card.style.display = match ? '' : 'none';
+                if (match) visibleCount += 1;
+            });
+
+            if (noResults) {
+                noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+            }
+        }
+
+        function initMarketplaceSearch() {
+            const topInput = document.getElementById('topSearchInput');
+            const topButton = document.getElementById('topSearchButton');
+            const marketInput = document.getElementById('marketSearchInput');
+
+            // Prefill from URL ?q=
+            const params = new URLSearchParams(window.location.search);
+            const q = params.get('q') || '';
+            if (q) {
+                if (topInput) topInput.value = q;
+                if (marketInput) marketInput.value = q;
+                applyMarketplaceSearch(q);
+            }
+
+            const syncAndSearch = (value) => {
+                if (topInput && topInput.value !== value) topInput.value = value;
+                if (marketInput && marketInput.value !== value) marketInput.value = value;
+                applyMarketplaceSearch(value);
+            };
+
+            if (topInput) {
+                topInput.addEventListener('input', () => syncAndSearch(topInput.value));
+                topInput.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') syncAndSearch(topInput.value);
+                });
+            }
+
+            if (topButton) {
+                topButton.addEventListener('click', () => syncAndSearch(topInput ? topInput.value : ''));
+            }
+
+            if (marketInput) {
+                marketInput.addEventListener('input', () => syncAndSearch(marketInput.value));
+                marketInput.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') syncAndSearch(marketInput.value);
+                });
+            }
+        }
+
         // Filter functions
         function filterByCategory(category) {
             alert(`Filtering by category: ${category}`);
@@ -1580,6 +1681,9 @@
             // Implement sorting logic here
         }
         
+        document.addEventListener('DOMContentLoaded', function () {
+            initMarketplaceSearch();
+        });
     </script>
 </body>
 </html>

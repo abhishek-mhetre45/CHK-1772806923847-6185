@@ -1,111 +1,202 @@
-// Mobile menu and interactions
-document.addEventListener('DOMContentLoaded', function() {
-    
-    // Search functionality
-    const searchInput = document.querySelector('.search-box input');
-    const searchButton = document.querySelector('.search-box button');
-    
-    if (searchButton) {
-        searchButton.addEventListener('click', function() {
-            const searchTerm = searchInput.value.trim();
-            if (searchTerm) {
-                console.log('Searching for:', searchTerm);
-                // Add your search logic here
-                alert(`Searching for: ${searchTerm}`);
-            }
-        });
-    }
-    
-    // Category dropdown change
-    const categorySelect = document.querySelector('.category-dropdown select');
-    if (categorySelect) {
-        categorySelect.addEventListener('change', function() {
-            console.log('Selected category:', this.value);
-            // Add your category filter logic here
-        });
-    }
-    
-    // Navigation active state
-    const navLinks = document.querySelectorAll('.nav-categories a');
-    navLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            navLinks.forEach(l => l.classList.remove('active'));
-            this.classList.add('active');
-        });
-    });
-    
-    // Image hover effects (optional)
-    const imageItems = document.querySelectorAll('.image-item');
-    imageItems.forEach(item => {
-        item.addEventListener('mouseenter', function() {
-            this.style.zIndex = '10';
-        });
-        
-        item.addEventListener('mouseleave', function() {
-            this.style.zIndex = '1';
-        });
-    });
-    
-    console.log('ShopLocal - Hero section loaded');
+// ===============================
+// CraftConnect Main Script
+// ===============================
 
-    function logout() {
-    window.location.href = 'marketplace.html';
-}
-
-// Global cart functionality
+// ---------- CART FUNCTIONS ----------
 
 // Get cart from localStorage
 function getCart() {
-    return JSON.parse(localStorage.getItem('cart')) || [];
+    return JSON.parse(localStorage.getItem("cart")) || [];
 }
 
-// Save cart to localStorage
+// Save cart
 function saveCart(cart) {
-    localStorage.setItem('cart', JSON.stringify(cart));
+    localStorage.setItem("cart", JSON.stringify(cart));
 }
 
-// Update cart count on all pages
-function updateCartCount(){
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    let count = cart.reduce((total,item)=> total + item.quantity,0);
-    document.getElementById("cartCount").textContent = count;
-}
+// Update cart count in header
+function updateCartCount() {
 
-updateCartCount();
-
-// Add to cart function (make it global)
-window.addToCart = function(product) {
-    console.log('Adding to cart:', product); // For debugging
-    
     let cart = getCart();
+
+    let count = cart.reduce((total, item) => {
+        return total + (item.quantity || 1);
+    }, 0);
+
+    const cartCountElement = document.getElementById("cartCount");
+
+    if (cartCountElement) {
+        cartCountElement.textContent = count;
+    }
+}
+
+
+// ---------- ADD TO CART ----------
+
+// Global add to cart function
+window.addToCart = function(product) {
+
+    console.log("Adding product:", product);
+
+    let cart = getCart();
+
     const existingItem = cart.find(item => item.id === product.id);
-    
+
     if (existingItem) {
+
         existingItem.quantity = (existingItem.quantity || 1) + (product.quantity || 1);
+
     } else {
+
         cart.push({
             id: product.id,
             name: product.name,
             price: product.price,
             image: product.image,
-            artisan: product.artisan || '',
+            artisan: product.artisan || "Local Artisan",
             quantity: product.quantity || 1
         });
+
     }
-    
+
     saveCart(cart);
+
     updateCartCount();
-    
-    // Show success message
-    alert(`${product.name} added to cart!`);
-    
-    return false; // Prevent any default behavior
+
+    alert(product.name + " added to cart!");
 };
 
-// Initialize on every page
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('Cart script initialized');
+
+// ---------- PRODUCT DETAIL PAGE ----------
+
+// Increase quantity
+function incrementQuantity() {
+
+    const qty = document.getElementById("quantity");
+
+    if (qty) {
+        qty.value = parseInt(qty.value) + 1;
+    }
+}
+
+// Decrease quantity
+function decrementQuantity() {
+
+    const qty = document.getElementById("quantity");
+
+    if (qty && qty.value > 1) {
+        qty.value = parseInt(qty.value) - 1;
+    }
+}
+
+
+// Add to cart from product detail page
+function addToCartFromDetail() {
+
+    const qtyInput = document.getElementById("quantity");
+
+    let quantity = 1;
+
+    if (qtyInput) {
+        quantity = parseInt(qtyInput.value);
+    }
+
+    // ⚠ Change these values dynamically if needed
+    const product = {
+        id: 1,
+        name: "Handmade Clay Pot",
+        price: 450,
+        image: "../images/pot.jpg",
+        artisan: "Ramesh Pottery",
+        quantity: quantity
+    };
+
+    addToCart(product);
+}
+
+
+// ---------- PAGE INTERACTIONS ----------
+
+document.addEventListener("DOMContentLoaded", function() {
+
+    console.log("CraftConnect loaded");
+
     updateCartCount();
-});
+
+
+    // Search functionality
+    const searchInput = document.querySelector(".search-box input");
+    const searchButton = document.querySelector(".search-box button");
+
+    if (searchButton && searchInput) {
+
+        searchButton.addEventListener("click", function() {
+
+            const searchTerm = searchInput.value.trim();
+
+            if (searchTerm) {
+
+                console.log("Searching for:", searchTerm);
+
+                alert("Searching for: " + searchTerm);
+
+            }
+
+        });
+
+    }
+
+
+    // Category dropdown
+    const categorySelect = document.querySelector(".category-dropdown select");
+
+    if (categorySelect) {
+
+        categorySelect.addEventListener("change", function() {
+
+            console.log("Selected category:", this.value);
+
+        });
+
+    }
+
+
+    // Navigation active state
+    const navLinks = document.querySelectorAll(".nav-categories a");
+
+    navLinks.forEach(link => {
+
+        link.addEventListener("click", function() {
+
+            navLinks.forEach(l => l.classList.remove("active"));
+
+            this.classList.add("active");
+
+        });
+
+    });
+
+
+    // Image hover effect
+    const imageItems = document.querySelectorAll(".image-item");
+
+    imageItems.forEach(item => {
+
+        item.addEventListener("mouseenter", function() {
+            this.style.zIndex = "10";
+        });
+
+        item.addEventListener("mouseleave", function() {
+            this.style.zIndex = "1";
+        });
+
+    });
 
 });
+
+
+// ---------- LOGOUT ----------
+
+function logout() {
+    window.location.href = "marketplace.html";
+}

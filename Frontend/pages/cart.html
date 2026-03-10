@@ -416,8 +416,9 @@
             const cart = JSON.parse(localStorage.getItem('cart')) || [];
             const cartContent = document.getElementById('cartContent');
             
-            if (cart.length === 0) {
-                // Show empty cart
+            console.log('Loading cart:', cart); // Debug log
+            
+            if (!cart || cart.length === 0) {
                 cartContent.innerHTML = `
                     <div class="empty-cart">
                         <i class="fas fa-shopping-cart"></i>
@@ -433,14 +434,20 @@
             let subtotal = 0;
             let itemsHtml = '';
 
-            cart.forEach(item => {
-                const itemTotal = item.price * item.quantity;
+            cart.forEach((item, index) => {
+                // Skip invalid items
+                if (!item || !item.id || !item.name || !item.price) {
+                    console.warn('Skipping invalid item:', item);
+                    return;
+                }
+                
+                const itemTotal = item.price * (item.quantity || 1);
                 subtotal += itemTotal;
 
                 itemsHtml += `
                     <div class="cart-item" data-id="${item.id}">
                         <div class="cart-item-image">
-                            <img src="${item.image}" alt="${item.name}">
+                            <img src="${item.image || 'https://via.placeholder.com/100'}" alt="${item.name}">
                         </div>
                         <div class="cart-item-details">
                             <h3>${item.name}</h3>
@@ -449,9 +456,9 @@
                         </div>
                         <div class="cart-item-actions">
                             <div class="quantity-control">
-                                <button class="quantity-btn" onclick="updateCartItemQuantity(${item.id}, ${item.quantity - 1})">-</button>
-                                <input type="text" class="quantity-input" value="${item.quantity}" readonly>
-                                <button class="quantity-btn" onclick="updateCartItemQuantity(${item.id}, ${item.quantity + 1})">+</button>
+                                <button class="quantity-btn" onclick="updateCartItemQuantity(${item.id}, ${(item.quantity || 1) - 1})">-</button>
+                                <input type="text" class="quantity-input" value="${item.quantity || 1}" readonly>
+                                <button class="quantity-btn" onclick="updateCartItemQuantity(${item.id}, ${(item.quantity || 1) + 1})">+</button>
                             </div>
                             <button class="remove-btn" onclick="removeCartItem(${item.id})">
                                 <i class="fas fa-trash"></i>
@@ -461,6 +468,19 @@
                     </div>
                 `;
             });
+
+            // If no valid items, show empty cart
+            if (itemsHtml === '') {
+                cartContent.innerHTML = `
+                    <div class="empty-cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        <h2>Your cart is empty</h2>
+                        <p>Looks like you haven't added anything to your cart yet.</p>
+                        <a href="marketplace.html" class="shop-now-btn">Start Shopping</a>
+                    </div>
+                `;
+                return;
+            }
 
             const shipping = 100;
             const tax = Math.round(subtotal * 0.05);
@@ -505,7 +525,7 @@
             }
 
             let cart = JSON.parse(localStorage.getItem('cart')) || [];
-            const itemIndex = cart.findIndex(item => item.id === productId);
+            const itemIndex = cart.findIndex(item => Number(item.id) === Number(productId));
             
             if (itemIndex !== -1) {
                 cart[itemIndex].quantity = newQuantity;
@@ -535,20 +555,29 @@
             // Refresh display
             displayCartItems();
             
-            // Show message
             alert('Item removed from cart');
         }
 
         // Proceed to checkout
         function proceedToCheckout() {
             alert('Proceeding to checkout...');
-            // Will redirect to checkout page (to be built)
             // window.location.href = 'checkout.html';
+        }
+
+        // Update cart count in header
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+            document.querySelectorAll('.cart-count').forEach(el => {
+                el.textContent = totalItems;
+            });
         }
 
         // Load cart on page load
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('Cart page loaded');
             displayCartItems();
+            updateCartCount();
         });
     </script>
 </body>
