@@ -853,13 +853,14 @@
                 </div>
             </div>
             <div class="top-bar-right">
-                <a href="signup.html" class="btn-signup">Sign Up</a>
-                <a href="login.html" class="signin-link">Login</a>
-                <span class="hello-text">Hello, User</span>
-                <div class="cart-icon">
-                    <i class="fas fa-shopping-cart"></i>
-                </div>
-            </div>
+            <a href="signup.html" class="btn-signup">Sign Up</a>
+            <a href="login.html" class="signin-link">Login</a>
+            <span class="hello-text">Hello, User</span>
+            <a href="cart.html" class="cart-icon" id="cartLink">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count" id="cartCount">0</span>
+            </a>
+        </div>
         </div>
     </div>
 
@@ -1511,18 +1512,58 @@
             }
         }
 
-        // Add to cart functions
-        function addToCart(productId) {
-            const product = products[productId];
-            alert(`Added ${product.title} to cart!`);
-        }
+    function addToCart(productId) {
+
+    const product = products[productId];
+
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    const existingItem = cart.find(item => item.id === productId);
+
+    if (existingItem) {
+        existingItem.quantity += 1;
+    } else {
+        cart.push({
+            id: productId,
+            name: product.title,
+            price: parseInt(product.price.replace(/[₹,]/g, "")),
+            image: product.image,
+            artisan: product.artisan,
+            quantity: 1
+        });
+    }
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+
+    alert(`${product.title} added to cart`);
+}
 
         function addToCartFromDetail() {
-            const quantity = document.getElementById('quantity').value;
-            const product = products[currentProductId];
-            alert(`Added ${quantity} × ${product.title} to cart!`);
-        }
 
+    const quantity = parseInt(document.getElementById('quantity').value);
+    const product = products[currentProductId];
+
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    const existingItem = cart.find(item => item.id === currentProductId);
+
+    if (existingItem) {
+        existingItem.quantity += quantity;
+    } else {
+        cart.push({
+            id: currentProductId,
+            name: product.title,
+            price: parseInt(product.price.replace(/[₹,]/g, "")),
+            image: product.image,
+            artisan: product.artisan,
+            quantity: quantity
+        });
+    }
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+
+    alert(`${quantity} × ${product.title} added to cart`);
+}
         // Filter functions
         function filterByCategory(category) {
             alert(`Filtering by category: ${category}`);
@@ -1538,6 +1579,7 @@
             alert(`Sorting by: ${sortBy}`);
             // Implement sorting logic here
         }
+        
     </script>
 </body>
 </html>
