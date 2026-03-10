@@ -47,4 +47,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     console.log('ShopLocal - Hero section loaded');
+
+    function logout() {
+    window.location.href = 'marketplace.html';
+}
 });

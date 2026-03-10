@@ -3,17 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Handmade With Heart</title>
+    <title>CraftConnect - Handmade With Heart</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Quick fixes for social buttons */
+        .social-login .social-icons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 14px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 15px;
+            transition: var(--transition);
+            border: 2px solid #e0e0e0;
+            background: white;
+            width: 100%;
+        }
+        
+        .social-btn.google {
+            color: #DB4437;
+            border-color: #DB4437;
+        }
+        
+        .social-btn.apple {
+            color: #000;
+            border-color: #000;
+        }
+        
+        .social-btn.facebook {
+            color: #4267B2;
+            border-color: #4267B2;
+        }
+        
+        .social-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .social-btn i {
+            font-size: 18px;
+        }
+        
+        /* Fix navigation capital/small mix */
+        .main-nav .nav-categories a {
+            text-transform: uppercase;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Fix active state */
+        .main-nav .nav-categories a.active {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+        }
+        
+        /* Ensure home doesn't show jewelry active */
+        .main-nav .nav-categories li:first-child a.active {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+        }
+    </style>
 </head>
 <body>
-    <!-- Top Bar with Search and Sign In -->
+    <!-- Top Bar -->
     <div class="top-bar">
         <div class="container">
             <div class="top-bar-left">
-                <div class="logo-large">CraftConnect</div>
-        </div>
+                <div class="logo-large">CRAFTCONNECT</div>
+            </div>
             <div class="top-bar-center">
                 <div class="search-box">
                     <input type="text" placeholder="Search...">
@@ -26,17 +94,19 @@
                         <option>Home & Living</option>
                         <option>Bath & Beauty</option>
                         <option>Art & Collectibles</option>
+                        <option>Textiles</option>
                         <option>Fun & Games</option>
                         <option>Celebrations</option>
                     </select>
                 </div>
             </div>
-            <div class="top-bar-right">
-                <a href="pages/login.html" class="signin-link">Sign In</a>
-                <span class="hello-text">Hello.</span>
+                        <div class="top-bar-right">
+                <a href="pages/signup.html" class="btn-signup">Sign Up</a>
+                <a href="pages/login.html" class="signin-link">Login</a>
+                <span class="hello-text">Hello, User</span>
                 <div class="cart-icon">
                     <i class="fas fa-shopping-cart"></i>
-DS                </div>
+                </div>
             </div>
         </div>
     </div>
@@ -45,13 +115,15 @@ DS                </div>
     <nav class="main-nav">
         <div class="container">
             <ul class="nav-categories">
-                <li><a href="#" class="active">Jewelry</a></li>
-                <li><a href="#">Home & Living</a></li>
-                <li><a href="#">Bath & Beauty</a></li>
-                <li><a href="#">Art & Collectibles</a></li>
-                <li><a href="#">Fun & Games</a></li>
-                <li><a href="#">Celebrations</a></li>
-                <li><a href="#">More</a></li>
+                <li><a href="index.html" class="active">HOME</a></li>
+                <li><a href="pages/marketplace.html">MARKETPLACE</a></li>
+                <li><a href="#">JEWELRY</a></li>
+                <li><a href="#">HOME & LIVING</a></li>
+                <li><a href="#">BATH & BEAUTY</a></li>
+                <li><a href="#">ART & COLLECTIBLES</a></li>
+                <li><a href="#">TEXTILES</a></li>
+                <li><a href="#">FUN & GAMES</a></li>
+                <li><a href="#">CELEBRATIONS</a></li>
             </ul>
         </div>
     </nav>
@@ -61,38 +133,93 @@ DS                </div>
         <div class="container">
             <div class="hero-content">
                 <div class="hero-left">
-                    <span class="shop-local">ShopLocal</span>
                     <h1 class="hero-title">
                         <span class="handmade">HANDMADE</span><br>
                         <span class="with-heart">WITH HEART</span>
                     </h1>
                     <p class="hero-subtitle">
-                        Handmade in the USA · 100% Profits to Charity
+                        Curated. Ethical. Exceptional. Supporting global artisan<br>
+                        communities with 100% of profits to charity.
                     </p>
                     <div class="hero-buttons">
-                        <a href="#" class="btn-shop-now">SHOP NOW</a>
-                        <a href="#" class="btn-learn-more">LEARN MORE</a>
+                        <a href="pages/marketplace.html" class="btn-shop-now">SHOP NOW</a>
+                        <a href="#" class="btn-learn-more">EXPLORE CRAFT</a>
                     </div>
                 </div>
                 <div class="hero-right">
-    <div class="hero-image-grid-three">
-        <!-- First image -->
-        <div class="image-item">
-            <img src="https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261" alt="Handmade Pottery">
-            <span class="image-label">Pottery</span>
+                    <div class="hero-image-grid-three">
+                        <!-- First image - Textiles -->
+                        <div class="image-item">
+                            <img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3" alt="Handwoven Textile">
+                            <span class="image-label">Textiles</span>
+                        </div>
+                        <!-- Second image - Pottery -->
+                        <div class="image-item">
+                            <img src="https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261" alt="Handmade Pottery">
+                            <span class="image-label">Pottery</span>
+                        </div>
+                        <!-- Third image - Jewelry -->
+                        <div class="image-item">
+                            <img src="https://images.unsplash.com/photo-1535632066927-ab7c9ab60908" alt="Handmade Jewelry">
+                            <span class="image-label">Jewelry</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <!-- Second image -->
-        <div class="image-item">
-            <img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3" alt="Handwoven Textile">
-            <span class="image-label">Textiles</span>
-        </div>
-        <!-- Third image -->
-        <div class="image-item">
-            <img src="https://images.unsplash.com/photo-1535632066927-ab7c9ab60908" alt="Handmade Jewelry">
-            <span class="image-label">Jewelry</span>
-        </div>
-    </div>
-</div>
+    </section>
+
+    <!-- Login Section -->
+    <section class="auth-section">
+        <div class="auth-container">
+            <div class="auth-card">
+                <div class="auth-header">
+                    <h2>Welcome Back!</h2>
+                    <p>Sign in to continue your artisan journey</p>
+                </div>
+
+                <form class="auth-form" id="loginForm">
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" placeholder="Enter your email">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Password</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" placeholder="Enter your password">
+                        </div>
+                    </div>
+
+                    <div class="forgot-password">
+                        <a href="#">Forgot Password?</a>
+                    </div>
+
+                    <button type="submit" class="auth-btn">Sign In</button>
+                </form>
+
+                <div class="auth-footer">
+                    <p>New to CraftConnect? <a href="pages/signup.html">Create an Account</a></p>
+                </div>
+
+                        <div class="social-login">
+            <p>Or continue with</p>
+            <div class="social-icons-horizontal">
+                <a href="#" class="social-icon-circle google">
+                    <i class="fab fa-google"></i>
+                </a>
+                <a href="#" class="social-icon-circle apple">
+                    <i class="fab fa-apple"></i>
+                </a>
+                <a href="#" class="social-icon-circle facebook">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+            </div>
+                </div>
             </div>
         </div>
     </section>
