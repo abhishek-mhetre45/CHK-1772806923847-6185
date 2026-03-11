@@ -846,7 +846,7 @@
     };
 
     // Form submission
-    document.getElementById('addProductForm').addEventListener('submit', function(e) {
+    document.getElementById('addProductForm').addEventListener('submit', async function(e) {
         e.preventDefault();
         
         const productName = document.getElementById('productName').value.trim();
@@ -905,6 +905,42 @@
             alert('Please fix the following errors:\n\n• ' + errors.join('\n• '));
             return;
         }
+
+        const submitBtn = this.querySelector('button[type="submit"]');
+        if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading...';
+        }
+
+        try {
+            let imageId = '';
+            if (window.AppwriteAPI && window.AppwriteAPI.uploadFile && window.AppwriteAPI.createProduct) {
+                const firstFile = imageInput.files[0];
+                const fileResult = await window.AppwriteAPI.uploadFile(firstFile);
+                if (fileResult && fileResult.$id) imageId = fileResult.$id;
+                const artisanId = (function() {
+                    try {
+                        const u = localStorage.getItem('cc_user');
+                        return u ? JSON.parse(u).id : '';
+                    } catch (e) { return ''; }
+                })();
+                const categoryLabel = selectedCategory === 'jewelry' ? 'Jewelry' : selectedCategory === 'home-living' ? 'Home & Living' : selectedCategory === 'bath-beauty' ? 'Bath & Beauty' : selectedCategory === 'art' ? 'Art & Collectibles' : selectedCategory === 'pottery' ? 'Pottery' : selectedCategory === 'textiles' ? 'Textiles' : 'Jewelry';
+                await window.AppwriteAPI.createProduct({
+                    product_name: productName,
+                    description: description,
+                    price: Math.round(parseFloat(price)),
+                    stock: parseInt(stock, 10) || 0,
+                    artisan_id: artisanId,
+                    category: categoryLabel,
+                    image_id: imageId
+                });
+            }
+        } catch (err) {
+            console.error('Upload error:', err);
+            alert('Failed to upload product. Please try again.');
+            if (submitBtn) { submitBtn.disabled = false; submitBtn.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> Upload Product'; }
+            return;
+        }
         
         const successMsg = document.createElement('div');
         successMsg.className = 'success-message';
@@ -913,16 +949,6 @@
             Product "${productName}" uploaded successfully! Redirecting to dashboard...
         `;
         document.body.appendChild(successMsg);
-        
-        console.log('Product Uploaded:', {
-            name: productName,
-            description: description,
-            price: '₹' + price,
-            stock: stock + ' units',
-            category: selectedCategory,
-            images: imageInput.files.length + ' image(s)',
-            tags: Array.from(document.querySelectorAll('.tag span')).map(tag => tag.textContent)
-        });
         
         setTimeout(() => {
             window.location.href = 'artisan-dashboard.html';
@@ -1002,6 +1028,8 @@
         this.style.borderColor = this.value >= 0 ? '#4CAF50' : '#e0e0e0';
     });
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/appwrite/dist/iife/sdk.js"></script>
+    <script src="../js/appwrite.js"></script>
     <script src="../js/script.js"></script>
 </body>
 </html>

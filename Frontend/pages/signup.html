@@ -7,27 +7,41 @@
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* Auth Pages Specific Styles */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f5f7fa; }
+
+        .top-bar {
+            padding: 18px 40px;
+            background: #fff;
+            border-bottom: 2px solid #eee;
+        }
+
+        .logo-large {
+            font-size: 26px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #FF6B6B 0%, #4ECDC4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+        }
+
         .auth-section {
-            min-height: calc(100vh - 200px);
+            min-height: calc(100vh - 70px);
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 60px 20px;
-            background: linear-gradient(135deg, #f5f7fa 0%, #f9f9f9 100%);
+            padding: 40px 20px;
+            background: #f5f7fa;
         }
 
-        .auth-container {
-            max-width: 500px;
-            width: 100%;
-        }
+        .auth-container { max-width: 500px; width: 100%; }
 
         .auth-card {
-            background: var(--white);
+            background: #fff;
             border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(255, 107, 107, 0.1);
+            padding: 45px 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
         }
 
         .auth-header {
@@ -35,33 +49,53 @@
             margin-bottom: 30px;
         }
 
-        .auth-header .logo-large {
+        .auth-header .brand {
             font-size: 32px;
-            margin-bottom: 15px;
-            display: inline-block;
+            font-weight: 800;
             background: linear-gradient(135deg, #FF6B6B 0%, #4ECDC4 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            font-weight: 800;
+            display: inline-block;
+            border-bottom: 2px solid;
+            border-image: linear-gradient(135deg, #FF6B6B, #4ECDC4) 1;
+            padding-bottom: 6px;
+            margin-bottom: 18px;
         }
 
         .auth-header h2 {
             font-size: 28px;
             color: #2C3E50;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
-        .auth-header p {
-            color: #7F8C8D;
-            font-size: 15px;
+        .auth-header p { color: #7F8C8D; font-size: 15px; }
+
+        .role-selector { display: flex; gap: 15px; margin-bottom: 22px; }
+
+        .role-option {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
 
-        .auth-form .form-group {
-            margin-bottom: 20px;
+        .role-option:hover { border-color: #FF6B6B; }
+
+        .role-option.selected {
+            border-color: #FF6B6B;
+            background: rgba(255,107,107,0.05);
         }
 
-        .auth-form label {
+        .role-option i { font-size: 24px; color: #FF6B6B; display: block; margin-bottom: 6px; }
+        .role-option span { font-weight: 600; color: #2C3E50; font-size: 14px; }
+
+        .form-group { margin-bottom: 20px; }
+
+        .form-group label {
             display: block;
             margin-bottom: 8px;
             font-weight: 500;
@@ -69,20 +103,16 @@
             font-size: 14px;
         }
 
-        .auth-form .input-wrapper {
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
+        .input-wrapper { position: relative; display: flex; align-items: center; }
 
-        .auth-form .input-wrapper i {
+        .input-wrapper i {
             position: absolute;
             left: 15px;
             color: #7F8C8D;
             font-size: 16px;
         }
 
-        .auth-form input {
+        .form-group input {
             width: 100%;
             padding: 15px 15px 15px 45px;
             border: 2px solid #e0e0e0;
@@ -92,41 +122,27 @@
             background: #F9F9F9;
         }
 
-        .auth-form input:focus {
+        .form-group input:focus {
             border-color: #FF6B6B;
             outline: none;
-            box-shadow: 0 0 0 4px rgba(255, 107, 107, 0.1);
+            box-shadow: 0 0 0 4px rgba(255,107,107,0.1);
+            background: #fff;
         }
 
-        .auth-form input.error {
-            border-color: #ff4444;
-        }
+        .form-group input.error { border-color: #ff4444; }
 
-        .error-message {
-            color: #ff4444;
-            font-size: 13px;
-            margin-top: 5px;
-            display: block;
-        }
+        .error-message { color: #ff4444; font-size: 13px; margin-top: 5px; display: block; }
 
         .password-requirements {
             background: #F9F9F9;
             padding: 15px;
             border-radius: 10px;
-            margin: 15px 0;
+            margin: -8px 0 18px;
             font-size: 13px;
         }
 
-        .password-requirements p {
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: #2C3E50;
-        }
-
-        .password-requirements ul {
-            list-style: none;
-            padding-left: 0;
-        }
+        .password-requirements p { font-weight: 600; margin-bottom: 8px; color: #2C3E50; }
+        .password-requirements ul { list-style: none; padding: 0; }
 
         .password-requirements li {
             color: #7F8C8D;
@@ -136,14 +152,20 @@
             gap: 8px;
         }
 
-        .password-requirements li i {
-            font-size: 12px;
-            color: #ff4444;
+        .password-requirements li i { font-size: 12px; color: #ff4444; }
+        .password-requirements li.valid i { color: #00C851; }
+
+        .terms {
+            margin: 18px 0;
+            font-size: 13px;
+            color: #7F8C8D;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .password-requirements li.valid i {
-            color: #00C851;
-        }
+        .terms input[type="checkbox"] { width: 16px; height: 16px; cursor: pointer; }
+        .terms a { color: #FF6B6B; text-decoration: none; }
 
         .auth-btn {
             width: 100%;
@@ -156,14 +178,13 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin-top: 10px;
             letter-spacing: 0.5px;
         }
 
         .auth-btn:hover {
             background: #ff5252;
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+            box-shadow: 0 5px 15px rgba(255,107,107,0.35);
         }
 
         .auth-footer {
@@ -171,9 +192,6 @@
             margin-top: 25px;
             padding-top: 25px;
             border-top: 1px solid #e0e0e0;
-        }
-
-        .auth-footer p {
             color: #7F8C8D;
             font-size: 15px;
         }
@@ -183,121 +201,29 @@
             text-decoration: none;
             font-weight: 600;
             margin-left: 5px;
-            transition: all 0.3s ease;
         }
 
-        .auth-footer a:hover {
-            color: #ff5252;
-            text-decoration: underline;
-        }
-
-        .terms {
-            margin: 20px 0;
-            font-size: 13px;
-            color: #7F8C8D;
-            text-align: center;
-        }
-
-        .terms a {
-            color: #FF6B6B;
-            text-decoration: none;
-        }
-
-        .role-selector {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .role-option {
-            flex: 1;
-            padding: 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .role-option:hover {
-            border-color: #FF6B6B;
-        }
-
-        .role-option.selected {
-            border-color: #FF6B6B;
-            background: rgba(255, 107, 107, 0.05);
-        }
-
-        .role-option i {
-            font-size: 24px;
-            color: #FF6B6B;
-            margin-bottom: 5px;
-        }
-
-        .role-option span {
-            display: block;
-            font-weight: 600;
-            color: #2C3E50;
-        }
+        .auth-footer a:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
-    <!-- Top Bar -->
-    <div class="top-bar">
-        <div class="container">
-            <div class="top-bar-left">
-                <div class="logo-large">CraftConnect</div>
-            </div>
-            <div class="top-bar-center">
-                <div class="search-box">
-                    <input type="text" placeholder="Search...">
-                    <button><i class="fas fa-search"></i></button>
-                </div>
-                <div class="category-dropdown">
-                    <select>
-                        <option>All categories</option>
-                        <option>Jewelry</option>
-                        <option>Home & Living</option>
-                        <option>Bath & Beauty</option>
-                        <option>Art & Collectibles</option>
-                    </select>
-                </div>
-            </div>
-            <div class="top-bar-right">
-                <a href="login.html" class="signin-link">Sign In</a>
-                <span class="hello-text">Hello.</span>
-                <div class="cart-icon">
-                    <i class="fas fa-shopping-cart"></i>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Main Navigation -->
-    <nav class="main-nav">
-        <div class="container">
-            <ul class="nav-categories">
-                <li><a href="../index.html">Home</a></li>
-                <li><a href="marketplace.html">Marketplace</a></li>
-                <li><a href="#">Jewelry</a></li>
-                <li><a href="#">Home & Living</a></li>
-                <li><a href="#">Bath & Beauty</a></li>
-                <li><a href="#">Art & Collectibles</a></li>
-            </ul>
-        </div>
-    </nav>
+    <!-- Top Bar - Logo Only -->
+    <div class="top-bar">
+        <a href="../index.html" class="logo-large">CraftConnect</a>
+    </div>
 
     <!-- Signup Section -->
     <section class="auth-section">
         <div class="auth-container">
             <div class="auth-card">
                 <div class="auth-header">
-                    <div class="logo-large">CraftConnect</div>
+                    <div class="brand">CraftConnect</div>
                     <h2>Join Our Community</h2>
                     <p>Create an account to start your artisan journey</p>
                 </div>
 
-                <form class="auth-form" id="signupForm">
+                <form id="signupForm">
                     <div class="role-selector">
                         <div class="role-option selected" id="buyerRole" onclick="selectRole('buyer')">
                             <i class="fas fa-shopping-bag"></i>
@@ -336,17 +262,7 @@
                         <span class="error-message" id="passwordError"></span>
                     </div>
 
-                    <div class="form-group">
-                        <label for="confirmPassword">Confirm Password</label>
-                        <div class="input-wrapper">
-                            <i class="fas fa-lock"></i>
-                            <input type="password" id="confirmPassword" placeholder="Confirm your password">
-                        </div>
-                        <span class="error-message" id="confirmError"></span>
-                    </div>
-
-                    <!-- Password Requirements -->
-                    <div class="password-requirements" id="passwordRequirements" style="display: none;">
+                    <div class="password-requirements" id="passwordRequirements" style="display:none;">
                         <p>Password must contain:</p>
                         <ul>
                             <li id="length"><i class="fas fa-times"></i> At least 8 characters</li>
@@ -356,27 +272,61 @@
                         </ul>
                     </div>
 
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="confirmPassword" placeholder="Confirm your password">
+                        </div>
+                        <span class="error-message" id="confirmError"></span>
+                    </div>
+
+                    <div class="form-group" id="locationGroup" style="display:none;">
+                        <label for="location">Location</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <input type="text" id="location" placeholder="e.g., Mumbai, India">
+                        </div>
+                    </div>
+                    <div class="form-group" id="craftTypeGroup" style="display:none;">
+                        <label for="craftType">Craft type</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-paint-brush"></i>
+                            <input type="text" id="craftType" placeholder="e.g., Pottery, Jewelry">
+                        </div>
+                    </div>
+
                     <div class="terms">
-                        <input type="checkbox" id="terms" style="width: auto; margin-right: 8px;">
-                        <label for="terms" style="display: inline;">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></label>
+                        <input type="checkbox" id="terms">
+                        <label for="terms">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></label>
                     </div>
 
                     <button type="submit" class="auth-btn">
-                        <i class="fas fa-user-plus" style="margin-right: 8px;"></i>
+                        <i class="fas fa-user-plus" style="margin-right:8px;"></i>
                         Create Account
                     </button>
                 </form>
 
                 <div class="auth-footer">
-                    <p>Already have an account? 
-                        <a href="login.html">Sign In</a>
-                    </p>
+                    Already have an account?
+                    <a href="login.html">Sign In</a>
                 </div>
             </div>
         </div>
     </section>
 
+    <script src="https://cdn.jsdelivr.net/npm/appwrite/dist/iife/sdk.js"></script>
+    <script src="../js/appwrite.js"></script>
     <script>
+        (function () {
+            try {
+                var u = localStorage.getItem('cc_user');
+                if (u && JSON.parse(u) && (JSON.parse(u).name || JSON.parse(u).email)) {
+                    var user = JSON.parse(u);
+                    window.location.replace(user.role === 'artisan' ? 'artisan-dashboard.html' : 'marketplace.html');
+                }
+            } catch (e) {}
+        })();
         let selectedRole = 'buyer';
 
         function selectRole(role) {
@@ -384,168 +334,157 @@
             document.getElementById('buyerRole').classList.remove('selected');
             document.getElementById('artisanRole').classList.remove('selected');
             document.getElementById(role + 'Role').classList.add('selected');
+            const show = role === 'artisan';
+            document.getElementById('locationGroup').style.display = show ? 'block' : 'none';
+            document.getElementById('craftTypeGroup').style.display = show ? 'block' : 'none';
         }
 
-        // Make selectRole available globally
-        window.selectRole = selectRole;
-
-        // Wait for DOM to load
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('Signup page loaded');
-            
+        document.addEventListener('DOMContentLoaded', function () {
             const passwordInput = document.getElementById('password');
             const requirements = document.getElementById('passwordRequirements');
-            
-            // Password strength checker
-            if (passwordInput) {
-                passwordInput.addEventListener('input', function() {
-                    const password = this.value;
-                    
-                    if (password.length > 0) {
-                        requirements.style.display = 'block';
-                    } else {
-                        requirements.style.display = 'none';
-                    }
 
-                    // Check length
-                    const lengthReq = document.getElementById('length');
-                    if (lengthReq) {
-                        if (password.length >= 8) {
-                            lengthReq.classList.add('valid');
-                            lengthReq.querySelector('i').className = 'fas fa-check';
-                            lengthReq.querySelector('i').style.color = '#00C851';
-                        } else {
-                            lengthReq.classList.remove('valid');
-                            lengthReq.querySelector('i').className = 'fas fa-times';
-                            lengthReq.querySelector('i').style.color = '#ff4444';
-                        }
-                    }
+            passwordInput.addEventListener('input', function () {
+                const pw = this.value;
+                requirements.style.display = pw.length > 0 ? 'block' : 'none';
 
-                    // Check number
-                    const numberReq = document.getElementById('number');
-                    if (numberReq) {
-                        if (/\d/.test(password)) {
-                            numberReq.classList.add('valid');
-                            numberReq.querySelector('i').className = 'fas fa-check';
-                            numberReq.querySelector('i').style.color = '#00C851';
-                        } else {
-                            numberReq.classList.remove('valid');
-                            numberReq.querySelector('i').className = 'fas fa-times';
-                            numberReq.querySelector('i').style.color = '#ff4444';
-                        }
-                    }
+                const checks = {
+                    length: pw.length >= 8,
+                    number: /\d/.test(pw),
+                    uppercase: /[A-Z]/.test(pw),
+                    special: /[!@#$%^&*(),.?":{}|<>]/.test(pw)
+                };
 
-                    // Check uppercase
-                    const upperReq = document.getElementById('uppercase');
-                    if (upperReq) {
-                        if (/[A-Z]/.test(password)) {
-                            upperReq.classList.add('valid');
-                            upperReq.querySelector('i').className = 'fas fa-check';
-                            upperReq.querySelector('i').style.color = '#00C851';
-                        } else {
-                            upperReq.classList.remove('valid');
-                            upperReq.querySelector('i').className = 'fas fa-times';
-                            upperReq.querySelector('i').style.color = '#ff4444';
-                        }
-                    }
+                Object.entries(checks).forEach(([id, valid]) => {
+                    const el = document.getElementById(id);
+                    const icon = el.querySelector('i');
+                    el.classList.toggle('valid', valid);
+                    icon.className = valid ? 'fas fa-check' : 'fas fa-times';
+                    icon.style.color = valid ? '#00C851' : '#ff4444';
+                });
+            });
 
-                    // Check special character
-                    const specialReq = document.getElementById('special');
-                    if (specialReq) {
-                        if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
-                            specialReq.classList.add('valid');
-                            specialReq.querySelector('i').className = 'fas fa-check';
-                            specialReq.querySelector('i').style.color = '#00C851';
-                        } else {
-                            specialReq.classList.remove('valid');
-                            specialReq.querySelector('i').className = 'fas fa-times';
-                            specialReq.querySelector('i').style.color = '#ff4444';
-                        }
+            document.getElementById('signupForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                const fullName = document.getElementById('fullName');
+                const email = document.getElementById('email');
+                const password = document.getElementById('password');
+                const confirmPassword = document.getElementById('confirmPassword');
+                const terms = document.getElementById('terms');
+
+                document.getElementById('nameError').textContent = '';
+                document.getElementById('emailError').textContent = '';
+                document.getElementById('passwordError').textContent = '';
+                document.getElementById('confirmError').textContent = '';
+                [fullName, email, password, confirmPassword].forEach(function (el) { if (el) el.classList.remove('error'); });
+
+                let isValid = true;
+
+                [['fullName', 'nameError', !fullName.value.trim(), 'Full name is required'],
+                 ['email', 'emailError', !email.value.trim(), 'Email is required'],
+                 ['email', 'emailError', email.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value), 'Please enter a valid email'],
+                 ['password', 'passwordError', !password.value, 'Password is required'],
+                 ['password', 'passwordError', password.value && password.value.length < 8, 'Password must be at least 8 characters'],
+                 ['confirmPassword', 'confirmError', confirmPassword.value !== password.value, 'Passwords do not match']
+                ].forEach(function (item) {
+                    var fieldId = item[0], errorId = item[1], condition = item[2], msg = item[3];
+                    if (condition) {
+                        document.getElementById(fieldId).classList.add('error');
+                        document.getElementById(errorId).textContent = msg;
+                        isValid = false;
                     }
                 });
-            }
 
-            // Form submission
-            const signupForm = document.getElementById('signupForm');
-            if (signupForm) {
-                signupForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    
-                    const fullName = document.getElementById('fullName');
-                    const email = document.getElementById('email');
-                    const password = document.getElementById('password');
-                    const confirmPassword = document.getElementById('confirmPassword');
-                    const terms = document.getElementById('terms');
-                    
-                    const nameError = document.getElementById('nameError');
-                    const emailError = document.getElementById('emailError');
-                    const passwordError = document.getElementById('passwordError');
-                    const confirmError = document.getElementById('confirmError');
-                    
-                    // Reset errors
-                    [fullName, email, password, confirmPassword].forEach(field => {
-                        if (field) field.classList.remove('error');
-                    });
-                    
-                    [nameError, emailError, passwordError, confirmError].forEach(err => {
-                        if (err) err.textContent = '';
-                    });
-                    
-                    let isValid = true;
-                    
-                    // Name validation
-                    if (!fullName.value) {
-                        fullName.classList.add('error');
-                        nameError.textContent = 'Full name is required';
-                        isValid = false;
-                    }
-                    
-                    // Email validation
-                    if (!email.value) {
-                        email.classList.add('error');
-                        emailError.textContent = 'Email is required';
-                        isValid = false;
-                    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
-                        email.classList.add('error');
-                        emailError.textContent = 'Please enter a valid email';
-                        isValid = false;
-                    }
-                    
-                    // Password validation
-                    if (!password.value) {
-                        password.classList.add('error');
-                        passwordError.textContent = 'Password is required';
-                        isValid = false;
-                    } else if (password.value.length < 8) {
-                        password.classList.add('error');
-                        passwordError.textContent = 'Password must be at least 8 characters';
-                        isValid = false;
-                    }
-                    
-                    // Confirm password
-                    if (password.value !== confirmPassword.value) {
-                        confirmPassword.classList.add('error');
-                        confirmError.textContent = 'Passwords do not match';
-                        isValid = false;
-                    }
-                    
-                    // Terms agreement
-                    if (!terms.checked) {
-                        alert('Please agree to the Terms of Service and Privacy Policy');
-                        isValid = false;
-                    }
-                    
-                    if (isValid) {
-            if (selectedRole === 'artisan') {
-            alert('Welcome Artisan! Your shop is ready. Redirecting to your dashboard...');
-                window.location.href = 'artisan-dashboard.html';
-            } else {
-                alert('Account created successfully! Redirecting to marketplace...');
-                window.location.href = 'marketplace.html';
+                if (!terms.checked) {
+                    alert('Please agree to the Terms of Service and Privacy Policy');
+                    isValid = false;
                 }
-            }
-                });
-            }
+
+                if (isValid) {
+                    var role = selectedRole === 'artisan' ? 'artisan' : 'customer';
+                    var userData = {
+                        name: fullName.value.trim(),
+                        email: email.value.trim(),
+                        role: role,
+                        location: (document.getElementById('location') && role === 'artisan') ? document.getElementById('location').value.trim() : '',
+                        craft_type: (document.getElementById('craftType') && role === 'artisan') ? document.getElementById('craftType').value.trim() : ''
+                    };
+                    var submitBtn = document.querySelector('#signupForm button[type="submit"]');
+                    if (window.AppwriteAPI && window.AppwriteAPI.createUser) {
+                        if (submitBtn) { submitBtn.disabled = true; submitBtn.innerHTML = 'Creating account...'; }
+                        window.AppwriteAPI.createUser(userData)
+                            .then(function (doc) {
+                                if (doc && doc.$id) {
+                                    try {
+                                        localStorage.setItem('cc_user', JSON.stringify({ id: doc.$id, name: userData.name, email: userData.email, role: userData.role }));
+                                    } catch (err) {}
+                                }
+                                if (role === 'artisan') {
+                                    alert('Welcome Artisan! Redirecting to your dashboard...');
+                                    window.location.href = 'artisan-dashboard.html';
+                                } else {
+                                    alert('Account created successfully! Redirecting to marketplace...');
+                                    window.location.href = 'marketplace.html';
+                                }
+                            })
+                            .catch(function (err) {
+                                var msg = (err && err.message) ? err.message : (err && err.toString) ? err.toString() : 'Server error';
+                                var isFetchFailed = (msg.indexOf('fetch') !== -1 || msg.indexOf('Failed to fetch') !== -1);
+                                if (isFetchFailed && window.AppwriteAPI && window.AppwriteAPI.createUserWithEndpoint) {
+                                    window.AppwriteAPI.createUserWithEndpoint('https://cloud.appwrite.io/v1', userData)
+                                        .then(function (doc) {
+                                            if (doc && doc.$id) {
+                                                try {
+                                                    localStorage.setItem('cc_user', JSON.stringify({ id: doc.$id, name: userData.name, email: userData.email, role: role }));
+                                                } catch (e) {}
+                                            }
+                                            if (role === 'artisan') { alert('Welcome Artisan! Redirecting...'); window.location.href = 'artisan-dashboard.html'; }
+                                            else { alert('Account created! Redirecting...'); window.location.href = 'marketplace.html'; }
+                                        })
+                                        .catch(function (err2) {
+                                            console.error('Sign up error:', err2);
+                                            if (submitBtn) { submitBtn.disabled = false; submitBtn.innerHTML = '<i class="fas fa-user-plus" style="margin-right:8px;"></i> Create Account'; }
+                                            try {
+                                                var localId = 'local_' + Date.now();
+                                                var userRecord = { id: localId, name: userData.name, email: userData.email, role: role };
+                                                localStorage.setItem('cc_user', JSON.stringify(userRecord));
+                                                var localUsers = JSON.parse(localStorage.getItem('cc_local_users') || '[]');
+                                                localUsers.push({ id: localId, email: userData.email, name: userData.name, role: role });
+                                                localStorage.setItem('cc_local_users', JSON.stringify(localUsers));
+                                            } catch (e) {}
+                                            alert('Could not reach server. You are signed in locally.\n\nTo fix: Open APPWRITE_SETUP.md in the project — add hostname 127.0.0.1 or localhost in Appwrite Console → Project → Overview → Platform.');
+                                            if (role === 'artisan') window.location.href = 'artisan-dashboard.html';
+                                            else window.location.href = 'marketplace.html';
+                                        });
+                                    return;
+                                }
+                                console.error('Sign up error:', err);
+                                if (submitBtn) { submitBtn.disabled = false; submitBtn.innerHTML = '<i class="fas fa-user-plus" style="margin-right:8px;"></i> Create Account'; }
+                                if (msg.indexOf('401') !== -1 || msg.indexOf('403') !== -1) {
+                                    alert('Cannot save user: Check Appwrite permissions. In Console, set Users collection to allow "Create" and "Read" for role "any".');
+                                } else if (isFetchFailed) {
+                                    try {
+                                        var localId = 'local_' + Date.now();
+                                        var userRecord = { id: localId, name: userData.name, email: userData.email, role: role };
+                                        localStorage.setItem('cc_user', JSON.stringify(userRecord));
+                                        var localUsers = JSON.parse(localStorage.getItem('cc_local_users') || '[]');
+                                        localUsers.push({ id: localId, email: userData.email, name: userData.name, role: role });
+                                        localStorage.setItem('cc_local_users', JSON.stringify(localUsers));
+                                    } catch (e) {}
+                                    alert('Could not reach server. You are signed in locally.\n\nTo fix: Open APPWRITE_SETUP.md in the project — add hostname 127.0.0.1 or localhost in Appwrite Console → Project → Overview → Platform.');
+                                    if (role === 'artisan') window.location.href = 'artisan-dashboard.html';
+                                    else window.location.href = 'marketplace.html';
+                                } else {
+                                    alert('Could not save to server: ' + msg);
+                                }
+                            });
+                    } else {
+                        alert('Appwrite not loaded. Check console.');
+                        if (role === 'artisan') window.location.href = 'artisan-dashboard.html';
+                        else window.location.href = 'marketplace.html';
+                    }
+                }
+            });
         });
     </script>
 </body>

@@ -102,9 +102,24 @@
             </div>
             
                     <div class="top-bar-right">
-            <a href="pages/signup.html" class="btn-signup">Sign Up</a>
-            <a href="pages/login.html" class="signin-link">Login</a>
-            <span class="hello-text">Hello, User</span>
+            <div id="authLinks" class="auth-links">
+                <a href="pages/signup.html" class="btn-signup">Sign Up</a>
+                <a href="pages/login.html" class="signin-link">Login</a>
+            </div>
+            <div id="userProfileWrap" class="user-profile-wrap" style="display:none">
+                <button type="button" class="user-profile-trigger" id="userProfileTrigger">
+                    <i class="fas fa-user-circle"></i>
+                    <span id="userDisplayName">User</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="user-profile-menu">
+                    <div class="user-profile-info">
+                        <div class="profile-name" id="userProfileName">—</div>
+                        <div class="profile-email" id="userProfileEmail">—</div>
+                    </div>
+                    <button type="button" class="btn-logout" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+                </div>
+            </div>
             <a href="pages/cart.html" class="cart-icon" id="cartLink">
                 <i class="fas fa-shopping-cart"></i>
                 <span class="cart-count" id="cartCount">0</span>

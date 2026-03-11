@@ -236,6 +236,33 @@
             window.location.href = '../index.html';
         }
 
+        function getCustomerId() {
+            try {
+                const u = localStorage.getItem('cc_user');
+                return u ? JSON.parse(u).id : '';
+            } catch (e) { return ''; }
+        }
+
+        function saveOrdersToAppwrite(cart) {
+            if (!window.AppwriteAPI || !window.AppwriteAPI.createOrder) return Promise.resolve();
+            const customerId = getCustomerId();
+            const paymentMethod = document.querySelector('input[name=\"paymentMethod\"]:checked');
+            const paymentStatus = (paymentMethod && paymentMethod.value === 'upi') ? 'paid' : 'pending';
+            const promises = (cart || []).map(function (item) {
+                return window.AppwriteAPI.createOrder({
+                    product_id: String(item.id),
+                    customer_id: customerId,
+                    artisen_id: item.artisan_id || item.artisan || 'n/a',
+                    quantity: item.quantity || 1,
+                    total_price: (item.price || 0) * (item.quantity || 1),
+                    payment_status: paymentStatus,
+                    order_status: 'placed',
+                    payment_id: ''
+                }).catch(function (err) { console.warn('Order save failed:', err); });
+            });
+            return Promise.all(promises);
+        }
+
         payButton.addEventListener('click', () => {
             const selected = document.querySelector('input[name=\"paymentMethod\"]:checked');
             if (!selected) {
@@ -248,15 +275,23 @@
                 upiTimeoutId = null;
             }
 
+            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            const doComplete = function () {
+                saveOrdersToAppwrite(cart).then(function () {
+                    try { localStorage.setItem('cart', '[]'); } catch (e) {}
+                    if (typeof updateCartCount === 'function') updateCartCount();
+                });
+            };
+
             if (selected.value === 'cod') {
+                doComplete();
                 alert('Purchase successful');
                 redirectHome();
             } else if (selected.value === 'upi') {
                 upiScanner.style.display = 'block';
                 payButton.disabled = true;
-
-                // Show success pop-up between 5 and 10 seconds (7 seconds here)
                 upiTimeoutId = setTimeout(() => {
+                    doComplete();
                     alert('Payment successful');
                     payButton.disabled = false;
                     upiTimeoutId = null;
@@ -265,5 +300,7 @@
             }
         });
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/appwrite/dist/iife/sdk.js"></script>
+    <script src="../js/appwrite.js"></script>
 </body>
 </html>

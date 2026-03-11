@@ -2,28 +2,18 @@
 // CraftConnect Main Script
 // ===============================
 
-// ---------- SIMPLE LANDING REDIRECT ----------
-
-// Very lightweight "landing page" behavior:
-// when a user first opens the home page (index.html),
-// send them to the dedicated login page instead.
-(function redirectHomeToLoginOnce() {
+// ---------- AUTH GUARD ----------
+// script.js runs only on protected pages (index, marketplace, cart, etc.)
+// Redirect to login if user is not signed in
+(function authGuard() {
     try {
-        const path = window.location.pathname.toLowerCase();
-        const isHome =
-            path.endsWith("/index.html") ||
-            path.endsWith("/frontend/") ||
-            path.endsWith("/frontend");
-
-        const hasSeenLogin = localStorage.getItem("cc_seenLogin") === "true";
-
-        if (isHome && !hasSeenLogin) {
-            localStorage.setItem("cc_seenLogin", "true");
-            window.location.href = "pages/login.html";
+        var u = localStorage.getItem("cc_user");
+        if (!u) {
+            var path = window.location.pathname.toLowerCase();
+            var loginUrl = (path.indexOf("/pages/") !== -1) ? "login.html" : "pages/login.html";
+            window.location.replace(loginUrl);
         }
-    } catch (e) {
-        // Fail silently if localStorage is not available
-    }
+    } catch (e) {}
 })();
 
 // ---------- CART FUNCTIONS ----------
@@ -146,6 +136,8 @@ document.addEventListener("DOMContentLoaded", function() {
     console.log("CraftConnect loaded");
 
     updateCartCount();
+    updateUserProfileUI();
+    initUserProfileDropdown();
 
 
     // Search functionality
@@ -219,8 +211,70 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 
+// ---------- USER PROFILE (when logged in) ----------
+
+function getLoggedInUser() {
+    try {
+        var u = localStorage.getItem("cc_user");
+        return u ? JSON.parse(u) : null;
+    } catch (e) { return null; }
+}
+
+function updateUserProfileUI() {
+    var user = getLoggedInUser();
+    var authLinks = document.getElementById("authLinks");
+    var userProfileWrap = document.getElementById("userProfileWrap");
+    var userDisplayName = document.getElementById("userDisplayName");
+    var userProfileName = document.getElementById("userProfileName");
+    var userProfileEmail = document.getElementById("userProfileEmail");
+
+    if (!authLinks || !userProfileWrap) return;
+
+    if (user && (user.name || user.email)) {
+        authLinks.style.display = "none";
+        userProfileWrap.style.display = "block";
+        if (userDisplayName) userDisplayName.textContent = user.name || user.email || "User";
+        if (userProfileName) userProfileName.textContent = user.name || "—";
+        if (userProfileEmail) userProfileEmail.textContent = user.email || "—";
+    } else {
+        authLinks.style.display = "";
+        userProfileWrap.style.display = "none";
+    }
+}
+
+function initUserProfileDropdown() {
+    var trigger = document.getElementById("userProfileTrigger");
+    var wrap = document.getElementById("userProfileWrap");
+    var logoutBtn = document.getElementById("logoutBtn");
+
+    if (trigger && wrap) {
+        trigger.addEventListener("click", function (e) {
+            e.stopPropagation();
+            wrap.classList.toggle("open");
+        });
+    }
+
+    if (logoutBtn) {
+        logoutBtn.addEventListener("click", function () {
+            try { localStorage.removeItem("cc_user"); } catch (e) {}
+            wrap && wrap.classList.remove("open");
+            var base = window.location.pathname.indexOf("/pages/") !== -1 ? "../index.html" : "index.html";
+            window.location.href = base;
+        });
+    }
+
+    document.addEventListener("click", function () {
+        if (wrap) wrap.classList.remove("open");
+    });
+    var menu = wrap ? wrap.querySelector(".user-profile-menu") : null;
+    if (menu) {
+        menu.addEventListener("click", function (e) { e.stopPropagation(); });
+    }
+}
+
 // ---------- LOGOUT ----------
 
 function logout() {
+    try { localStorage.removeItem("cc_user"); } catch (e) {}
     window.location.href = "marketplace.html";
 }

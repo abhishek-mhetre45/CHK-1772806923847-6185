@@ -883,9 +883,24 @@
                 </div>
             </div>
             <div class="top-bar-right">
-            <a href="signup.html" class="btn-signup">Sign Up</a>
-            <a href="login.html" class="signin-link">Login</a>
-            <span class="hello-text">Hello, User</span>
+            <div id="authLinks" class="auth-links">
+                <a href="signup.html" class="btn-signup">Sign Up</a>
+                <a href="login.html" class="signin-link">Login</a>
+            </div>
+            <div id="userProfileWrap" class="user-profile-wrap" style="display:none">
+                <button type="button" class="user-profile-trigger" id="userProfileTrigger">
+                    <i class="fas fa-user-circle"></i>
+                    <span id="userDisplayName">User</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="user-profile-menu">
+                    <div class="user-profile-info">
+                        <div class="profile-name" id="userProfileName">—</div>
+                        <div class="profile-email" id="userProfileEmail">—</div>
+                    </div>
+                    <button type="button" class="btn-logout" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+                </div>
+            </div>
             <a href="cart.html" class="cart-icon" id="cartLink">
                 <i class="fas fa-shopping-cart"></i>
                 <span class="cart-count" id="cartCount">0</span>
@@ -1204,7 +1219,7 @@
             <!-- Woodcraft Collection -->
             <div class="product-card" data-category="Woodcraft" onclick="showProductDetail(20)">
                 <div class="product-image">
-                    <img src="C:/Users/amhet/.cursor/projects/d-artisans-marketplace-updated-2/assets/c__Users_amhet_AppData_Roaming_Cursor_User_workspaceStorage_22dfec927fb1a31a47b417e1f09c76d2_images_wood_4-a65b923f-c003-4f1f-9d95-ce9ed7a58609.png" alt="Wooden Winter Village Lamp">
+                    <img src="https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Wooden Winter Village Lamp">
                 </div>
                 <div class="product-info">
                     <h3>Wooden Winter Village Lamp</h3>
@@ -1220,7 +1235,7 @@
 
             <div class="product-card" data-category="Woodcraft" onclick="showProductDetail(21)">
                 <div class="product-image">
-                    <img src="C:/Users/amhet/.cursor/projects/d-artisans-marketplace-updated-2/assets/c__Users_amhet_AppData_Roaming_Cursor_User_workspaceStorage_22dfec927fb1a31a47b417e1f09c76d2_images_Wood_5-3f71b233-f4ae-4731-afc6-751ff8c24787.png" alt="Tribal Wood Art Frame">
+                    <img src="https://images.unsplash.com/photo-1610701596007-11502861dcfa?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Tribal Wood Art Frame">
                 </div>
                 <div class="product-info">
                     <h3>Tribal Wood Art Frame</h3>
@@ -1236,7 +1251,7 @@
 
             <div class="product-card" data-category="Woodcraft" onclick="showProductDetail(22)">
                 <div class="product-image">
-                    <img src="C:/Users/amhet/.cursor/projects/d-artisans-marketplace-updated-2/assets/c__Users_amhet_AppData_Roaming_Cursor_User_workspaceStorage_22dfec927fb1a31a47b417e1f09c76d2_images_Wood_6-b5cb0178-d0a0-42a8-b90d-bd3dac8951b0.png" alt="Carved Goddess Wall Panel">
+                    <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Carved Goddess Wall Panel">
                 </div>
                 <div class="product-info">
                     <h3>Carved Goddess Wall Panel</h3>
@@ -1526,6 +1541,8 @@
         </div>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/appwrite/dist/iife/sdk.js"></script>
+    <script src="../js/appwrite.js"></script>
     <script src="../js/script.js"></script>
     <script>
         // Product data
@@ -1779,10 +1796,8 @@
                 popularRange: "₹3,499 - ₹3,999",
                 priceOptions: ["₹3,499", "₹3,799", "₹3,999", "₹4,299"],
                 description: "Intricately carved wooden winter village lamp that casts a warm festive glow in any room.",
-                image: "C:/Users/amhet/.cursor/projects/d-artisans-marketplace-updated-2/assets/c__Users_amhet_AppData_Roaming_Cursor_User_workspaceStorage_22dfec927fb1a31a47b417e1f09c76d2_images_wood_4-a65b923f-c003-4f1f-9d95-ce9ed7a58609.png",
-                thumbnails: [
-                    "C:/Users/amhet/.cursor/projects/d-artisans-marketplace-updated-2/assets/c__Users_amhet_AppData_Roaming_Cursor_User_workspaceStorage_22dfec927fb1a31a47b417e1f09c76d2_images_wood_4-a65b923f-c003-4f1f-9d95-ce9ed7a58609.png"
-                ],
+                image: "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
+                thumbnails: ["https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80"],
                 rating: 4.7,
                 reviews: 18
             },
@@ -1795,10 +1810,8 @@
                 popularRange: "₹3,499 - ₹3,999",
                 priceOptions: ["₹3,499", "₹3,799", "₹3,999", "₹4,499"],
                 description: "Hand-cut tribal silhouettes mounted in a solid wood frame, perfect for statement walls.",
-                image: "C:/Users/amhet/.cursor/projects/d-artisans-marketplace-updated-2/assets/c__Users_amhet_AppData_Roaming_Cursor_User_workspaceStorage_22dfec927fb1a31a47b417e1f09c76d2_images_Wood_5-3f71b233-f4ae-4731-afc6-751ff8c24787.png",
-                thumbnails: [
-                    "C:/Users/amhet/.cursor/projects/d-artisans-marketplace-updated-2/assets/c__Users_amhet_AppData_Roaming_Cursor_User_workspaceStorage_22dfec927fb1a31a47b417e1f09c76d2_images_Wood_5-3f71b233-f4ae-4731-afc6-751ff8c24787.png"
-                ],
+                image: "https://images.unsplash.com/photo-1610701596007-11502861dcfa?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
+                thumbnails: ["https://images.unsplash.com/photo-1610701596007-11502861dcfa?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80"],
                 rating: 4.6,
                 reviews: 12
             },
@@ -1811,14 +1824,71 @@
                 popularRange: "₹4,499 - ₹4,799",
                 priceOptions: ["₹4,499", "₹4,699", "₹4,799", "₹4,999"],
                 description: "Detailed hand-carved wooden panel depicting a divine goddess, ideal as a premium wall accent.",
-                image: "C:/Users/amhet/.cursor/projects/d-artisans-marketplace-updated-2/assets/c__Users_amhet_AppData_Roaming_Cursor_User_workspaceStorage_22dfec927fb1a31a47b417e1f09c76d2_images_Wood_6-b5cb0178-d0a0-42a8-b90d-bd3dac8951b0.png",
-                thumbnails: [
-                    "C:/Users/amhet/.cursor/projects/d-artisans-marketplace-updated-2/assets/c__Users_amhet_AppData_Roaming_Cursor_User_workspaceStorage_22dfec927fb1a31a47b417e1f09c76d2_images_Wood_6-b5cb0178-d0a0-42a8-b90d-bd3dac8951b0.png"
-                ],
+                image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
+                thumbnails: ["https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80"],
                 rating: 4.8,
                 reviews: 9
             }
         };
+
+        const DB_PRODUCT_ID_OFFSET = 1000;
+
+        function renderDbProduct(doc, index) {
+            const productId = DB_PRODUCT_ID_OFFSET + index;
+            const imageUrl = (window.AppwriteAPI && window.AppwriteAPI.getImageUrl) ? window.AppwriteAPI.getImageUrl(doc.image_id) : '';
+            const priceStr = '₹' + (doc.price != null ? Number(doc.price).toLocaleString('en-IN') : '0');
+            products[productId] = {
+                title: doc.product_name || 'Product',
+                artisan: 'Artisan',
+                category: doc.category || 'General',
+                price: priceStr,
+                priceRange: priceStr,
+                popularRange: priceStr,
+                priceOptions: [priceStr],
+                description: doc.description || '',
+                image: imageUrl || '',
+                thumbnails: imageUrl ? [imageUrl] : [],
+                rating: 4.5,
+                reviews: 0,
+                _dbId: doc.$id
+            };
+            const grid = document.getElementById('productsGrid');
+            if (!grid) return;
+            const card = document.createElement('div');
+            card.className = 'product-card';
+            card.dataset.category = doc.category || 'General';
+            card.setAttribute('data-db-product', '1');
+            card.onclick = function () { showProductDetail(productId); };
+            card.innerHTML = `
+                <div class="product-image">
+                    <img src="${imageUrl || 'https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=500&q=80'}" alt="${(doc.product_name || 'Product').replace(/"/g, '&quot;')}">
+                </div>
+                <div class="product-info">
+                    <h3>${(doc.product_name || 'Product').replace(/</g, '&lt;')}</h3>
+                    <p class="product-artisan">by Artisan</p>
+                    <div class="product-footer">
+                        <span class="product-price">${priceStr}</span>
+                        <button class="btn-add-cart" onclick="event.stopPropagation(); addToCart(${productId})">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+            grid.appendChild(card);
+        }
+
+        async function loadDbProducts() {
+            if (!window.AppwriteAPI || !window.AppwriteAPI.listProducts) return;
+            try {
+                const res = await window.AppwriteAPI.listProducts();
+                const list = res.documents || [];
+                list.forEach(function (doc, index) {
+                    renderDbProduct(doc, index);
+                });
+            } catch (e) {
+                console.warn('Could not load products from server:', e);
+            }
+        }
 
         let currentProductId = 2;
 
@@ -2138,6 +2208,7 @@
         
         document.addEventListener('DOMContentLoaded', function () {
             initMarketplaceSearch();
+            loadDbProducts();
 
             // Hook category dropdown on marketplace page
             const categorySelect = document.querySelector('.category-dropdown select');

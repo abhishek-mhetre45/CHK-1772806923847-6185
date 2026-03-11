@@ -7,27 +7,40 @@
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* Auth Pages Specific Styles */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f5f7fa; }
+
+        .auth-top-bar {
+            padding: 18px 40px;
+            background: #fff;
+            border-bottom: 2px solid #eee;
+        }
+        .auth-top-bar .logo-large {
+            font-size: 26px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #FF6B6B 0%, #4ECDC4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+        }
+
         .auth-section {
-            min-height: calc(100vh - 200px);
+            min-height: calc(100vh - 70px);
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 60px 20px;
-            background: linear-gradient(135deg, #f5f7fa 0%, #f9f9f9 100%);
+            padding: 40px 20px;
+            background: #f5f7fa;
         }
 
-        .auth-container {
-            max-width: 450px;
-            width: 100%;
-        }
+        .auth-container { max-width: 500px; width: 100%; }
 
         .auth-card {
-            background: var(--white);
+            background: #fff;
             border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(255, 107, 107, 0.1);
+            padding: 45px 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
         }
 
         .auth-header {
@@ -35,130 +48,87 @@
             margin-bottom: 30px;
         }
 
-        .auth-header .logo-large {
+        .auth-header .brand {
             font-size: 32px;
-            margin-bottom: 15px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #FF6B6B 0%, #4ECDC4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             display: inline-block;
+            border-bottom: 2px solid;
+            border-image: linear-gradient(135deg, #FF6B6B, #4ECDC4) 1;
+            padding-bottom: 6px;
+            margin-bottom: 18px;
         }
 
         .auth-header h2 {
             font-size: 28px;
-            color: var(--text-dark);
-            margin-bottom: 10px;
+            color: #2C3E50;
+            margin-bottom: 8px;
         }
 
-        .auth-header p {
-            color: var(--text-light);
-            font-size: 15px;
-        }
+        .auth-header p { color: #7F8C8D; font-size: 15px; }
 
-        .auth-form .form-group {
-            margin-bottom: 20px;
-        }
+        .form-group { margin-bottom: 20px; }
 
-        .auth-form label {
+        .form-group label {
             display: block;
             margin-bottom: 8px;
             font-weight: 500;
-            color: var(--text-dark);
+            color: #2C3E50;
             font-size: 14px;
         }
 
-        .auth-form .input-wrapper {
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
+        .input-wrapper { position: relative; display: flex; align-items: center; }
 
-        .auth-form .input-wrapper i {
+        .input-wrapper i {
             position: absolute;
             left: 15px;
-            color: var(--text-light);
+            color: #7F8C8D;
             font-size: 16px;
         }
 
-        .auth-form input {
+        .form-group input {
             width: 100%;
             padding: 15px 15px 15px 45px;
             border: 2px solid #e0e0e0;
             border-radius: 12px;
             font-size: 15px;
-            transition: var(--transition);
-            background: var(--background-light);
+            transition: all 0.3s ease;
+            background: #F9F9F9;
         }
 
-        .auth-form input:focus {
-            border-color: var(--primary-color);
+        .form-group input:focus {
+            border-color: #FF6B6B;
             outline: none;
-            box-shadow: 0 0 0 4px rgba(255, 107, 107, 0.1);
+            box-shadow: 0 0 0 4px rgba(255,107,107,0.1);
+            background: #fff;
         }
 
-        .auth-form input.error {
-            border-color: #ff4444;
-        }
+        .form-group input.error { border-color: #ff4444; }
 
-        .error-message {
-            color: #ff4444;
-            font-size: 13px;
-            margin-top: 5px;
-            display: block;
-        }
-
-        .password-requirements {
-            background: var(--background-light);
-            padding: 15px;
-            border-radius: 10px;
-            margin: 15px 0;
-            font-size: 13px;
-        }
-
-        .password-requirements p {
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: var(--text-dark);
-        }
-
-        .password-requirements ul {
-            list-style: none;
-            padding-left: 0;
-        }
-
-        .password-requirements li {
-            color: var(--text-light);
-            margin-bottom: 5px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .password-requirements li i {
-            font-size: 12px;
-            color: #ff4444;
-        }
-
-        .password-requirements li.valid i {
-            color: #00C851;
-        }
+        .error-message { color: #ff4444; font-size: 13px; margin-top: 5px; display: block; }
 
         .auth-btn {
             width: 100%;
             padding: 16px;
-            background: var(--primary-color);
+            background: #FF6B6B;
             color: white;
             border: none;
             border-radius: 12px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            transition: var(--transition);
-            margin-top: 10px;
+            transition: all 0.3s ease;
             letter-spacing: 0.5px;
+            margin-top: 10px;
         }
 
         .auth-btn:hover {
             background: #ff5252;
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+            box-shadow: 0 5px 15px rgba(255,107,107,0.35);
         }
 
         .auth-footer {
@@ -166,106 +136,24 @@
             margin-top: 25px;
             padding-top: 25px;
             border-top: 1px solid #e0e0e0;
-        }
-
-        .auth-footer p {
-            color: var(--text-light);
+            color: #7F8C8D;
             font-size: 15px;
         }
 
         .auth-footer a {
-            color: var(--primary-color);
+            color: #FF6B6B;
             text-decoration: none;
             font-weight: 600;
             margin-left: 5px;
-            transition: var(--transition);
         }
 
-        .auth-footer a:hover {
-            color: #ff5252;
-            text-decoration: underline;
-        }
-
-        .forgot-password {
-            text-align: right;
-            margin-top: 8px;
-        }
-
-        .forgot-password a {
-            color: var(--text-light);
-            font-size: 13px;
-            text-decoration: none;
-        }
-
-        .forgot-password a:hover {
-            color: var(--primary-color);
-        }
-
-        .social-login {
-            margin-top: 25px;
-            text-align: center;
-        }
-
-        .social-login p {
-            color: var(--text-light);
-            font-size: 14px;
-            margin-bottom: 15px;
-            position: relative;
-        }
-
-        .social-login p::before,
-        .social-login p::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            width: 30%;
-            height: 1px;
-            background: #e0e0e0;
-        }
-
-        .social-login p::before {
-            left: 0;
-        }
-
-        .social-login p::after {
-            right: 0;
-        }
-
-        .social-icons {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-        }
-
-        .social-icons a {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            background: var(--background-light);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-dark);
-            font-size: 20px;
-            transition: var(--transition);
-            border: 1px solid #e0e0e0;
-        }
-
-        .social-icons a:hover {
-            background: var(--primary-color);
-            color: white;
-            transform: translateY(-3px);
-        }
+        .auth-footer a:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
-    <!-- Minimal Top Bar: only app name -->
-    <div class="top-bar">
-        <div class="container">
-            <div class="top-bar-left">
-                <div class="logo-large">CraftConnect</div>
-            </div>
-        </div>
+    <!-- Top Bar - Logo Only (same as signup) -->
+    <div class="auth-top-bar">
+        <a href="login.html" class="logo-large">CraftConnect</a>
     </div>
 
     <!-- Login Section -->
@@ -273,8 +161,8 @@
         <div class="auth-container">
             <div class="auth-card">
                 <div class="auth-header">
-                    <div class="logo-large">CraftConnect</div>
-                    <h2>Welcome Back!</h2>
+                    <div class="brand">CraftConnect</div>
+                    <h2>Welcome Back</h2>
                     <p>Sign in to continue your artisan journey</p>
                 </div>
 
@@ -297,94 +185,96 @@
                         <span class="error-message" id="passwordError"></span>
                     </div>
 
-                    <div class="forgot-password">
-                        <a href="#">Forgot Password?</a>
-                    </div>
-
                     <button type="submit" class="auth-btn">
                         <i class="fas fa-sign-in-alt" style="margin-right: 8px;"></i>
                         Sign In
                     </button>
                 </form>
 
-                
-
-                            <div class="social-login">
-                <p>Or continue with</p>
-                <div class="social-icons-horizontal">
-                    <a href="#" class="social-icon-circle google">
-                        <i class="fab fa-google"></i>
-                    </a>
-                    <a href="#" class="social-icon-circle facebook">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                    <a href="#" class="social-icon-circle apple">
-                        <i class="fab fa-apple"></i>
-                    </a>
-                </div>
-            </div>
-
                 <div class="auth-footer">
-                    <p>Don't have an account? 
-                        <a href="signup.html">Create Account</a>
-                    </p>
+                    Don't have an account?
+                    <a href="signup.html">Create Account</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <script src="../js/script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/appwrite/dist/iife/sdk.js"></script>
+    <script src="../js/appwrite.js"></script>
     <script>
+        (function () {
+            try {
+                var u = localStorage.getItem('cc_user');
+                if (u && JSON.parse(u) && (JSON.parse(u).name || JSON.parse(u).email)) {
+                    var user = JSON.parse(u);
+                    window.location.replace(user.role === 'artisan' ? 'artisan-dashboard.html' : 'marketplace.html');
+                }
+            } catch (e) {}
+        })();
+
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            
-            const email = document.getElementById('email');
-            const password = document.getElementById('password');
-            const emailError = document.getElementById('emailError');
-            const passwordError = document.getElementById('passwordError');
-            
-            // Reset errors
+            var email = document.getElementById('email');
+            var password = document.getElementById('password');
+            var emailError = document.getElementById('emailError');
+            var passwordError = document.getElementById('passwordError');
+
             email.classList.remove('error');
             password.classList.remove('error');
             emailError.textContent = '';
             passwordError.textContent = '';
-            
-            let isValid = true;
-            
-            // Email validation
-            if (!email.value) {
+
+            var isValid = true;
+            if (!email.value.trim()) {
                 email.classList.add('error');
                 emailError.textContent = 'Email is required';
                 isValid = false;
-            } else if (!isValidEmail(email.value)) {
+            } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
                 email.classList.add('error');
                 emailError.textContent = 'Please enter a valid email';
                 isValid = false;
             }
-            
-            // Password validation
             if (!password.value) {
                 password.classList.add('error');
                 passwordError.textContent = 'Password is required';
                 isValid = false;
             }
-            
-            if (isValid) {
-                // Mark that user has successfully reached/login once
-                try {
-                    localStorage.setItem('cc_seenLogin', 'true');
-                } catch (e) {
-                    console.warn('Unable to persist landing flag', e);
-                }
 
-                alert('Login successful! Redirecting to home...');
-                window.location.href = '../index.html';
+            if (!isValid) return;
+
+            var emailVal = email.value.trim();
+            var tryLocalLogin = function () {
+                try {
+                    var localUsers = JSON.parse(localStorage.getItem('cc_local_users') || '[]');
+                    var found = localUsers.find(function (u) { return (u.email || '').toLowerCase() === emailVal.toLowerCase(); });
+                    if (found) {
+                        localStorage.setItem('cc_user', JSON.stringify({ id: found.id, name: found.name || '', email: found.email || '', role: found.role || 'customer' }));
+                        window.location.href = (found.role === 'artisan') ? 'artisan-dashboard.html' : 'marketplace.html';
+                        return true;
+                    }
+                } catch (e) {}
+                return false;
+            };
+
+            if (window.AppwriteAPI && window.AppwriteAPI.listUsersByEmail) {
+                window.AppwriteAPI.listUsersByEmail(emailVal)
+                    .then(function (res) {
+                        var docs = res.documents || [];
+                        if (docs.length > 0) {
+                            var user = docs[0];
+                            localStorage.setItem('cc_user', JSON.stringify({ id: user.$id, name: user.name || '', email: user.email || '', role: user.role || 'customer' }));
+                            window.location.href = (user.role === 'artisan') ? 'artisan-dashboard.html' : 'marketplace.html';
+                        } else {
+                            if (!tryLocalLogin()) passwordError.textContent = 'No account found with this email. Please sign up.';
+                        }
+                    })
+                    .catch(function () {
+                        if (!tryLocalLogin()) passwordError.textContent = 'Could not reach server. If you signed up offline, try again when connected.';
+                    });
+            } else {
+                if (!tryLocalLogin()) passwordError.textContent = 'No account found with this email. Please sign up.';
             }
         });
-
-        function isValidEmail(email) {
-            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-        }
     </script>
 </body>
 </html>
